@@ -1,0 +1,29 @@
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-ai-c {
+  align-items: center;
+}
+
+.flex-jc-c {
+  justify-content: center;
+}
+
+.btn {
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.btn--primary {
+  color: #fff;
+  background-color: var(--color-primary);
+}

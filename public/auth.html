@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monekt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/login.css" />
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script src="js/auth.js" type="module" defer></script>
+  </head>
+  <body>
+    <header class="margin-b-xl margin-t-l flex flex-ai-c flex-jc-r">
+      <a href="?login" class="link hidden">Log In</a>
+      <select id="select__language">
+        <option value="en-UK">English</option>
+        <option value="hr-HR">Croatian</option>
+      </select>
+    </header>
+    <div class="msg-box msg-hidden">
+      <svg
+        class="msg-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+        />
+      </svg>
+      <div id="msg-text">There has been an error, please try again later!</div>
+    </div>
+    <div class="overlay hidden">
+      <div class="loading">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <main>
+      <div class="login">
+        <div class="container flex flex--column flex-ai-c flex-jc-c">
+          <h1 class="heading--primary margin-b-md">Log In to Monekt</h1>
+          <form class="form form--login flex flex--column flex-jc-c flex-ai-c">
+            <div class="input__validation hidden flex flex-ai-c">
+              <svg
+                class="validation__icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                />
+              </svg>
+              <p class="validation__text">Email not valid.</p>
+            </div>
+            <div class="form__field form__field--error form__email margin-b-sm">
+              <label for="login_email">Email</label>
+              <input
+                type="email"
+                name="email"
+                required
+                id="login_email"
+                maxlength="64"
+                placeholder=""
+                autocomplete="email"
+              />
+            </div>
+            <div class="input__validation hidden flex flex-ai-c">
+              <svg
+                class="validation__icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                />
+              </svg>
+              <p class="validation__text">Email not valid.</p>
+            </div>
+            <div class="form__field form__password margin-b-sm">
+              <label for="login_password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="login_password"
+                required
+                minlength="8"
+                placeholder=""
+                autocomplete="current-password"
+              />
+            </div>
+            <button class="btn btn--primary margin-b-md">Log In</button>
+          </form>
+          <a href="#" class="link link--primary margin-b-md"
+            >Forgot Password?</a
+          >
+          <hr class="separator margin-b-md" />
+          <a href="?signup" class="btn btn--secondary">Create an Account</a>
+        </div>
+      </div>
+      <div class="signup hidden">
+        <div class="container flex flex--column flex-ai-c flex-jc-c">
+          <h1 class="heading--primary margin-b-md">Sign Up to Monekt</h1>
+          <form
+            class="form form--signup | flex flex--column flex-jc-c flex-ai-c"
+          >
+            <div class="fields__signup | grid grid-2-c">
+              <div class="field--signup signup__username">
+                <label for="signup__username" class="field__title"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  id="signup__username"
+                  class="field__input"
+                  placeholder=""
+                  required
+                  value=""
+                  autocomplete="username"
+                />
+                <div class="input__validation hidden flex flex-ai-c">
+                  <svg
+                    class="validation__icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                    />
+                  </svg>
+                  <p class="validation__text">Field not valid.</p>
+                </div>
+              </div>
+              <div class="field--signup signup__email">
+                <label for="signup__email" class="field__title">Email</label>
+                <input
+                  type="email"
+                  id="signup__email"
+                  class="field__input"
+                  required
+                  placeholder=""
+                  autocomplete="email"
+                  value=""
+                />
+                <div class="input__validation hidden flex flex-ai-c">
+                  <svg
+                    class="validation__icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                    />
+                  </svg>
+                  <p class="validation__text">Field not valid.</p>
+                </div>
+              </div>
+              <div class="field--signup signup__password">
+                <label for="signup__password" class="field__title"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="signup__password"
+                  class="field__input"
+                  required
+                  placeholder=""
+                  autocomplete="current-password"
+                  minlength="8"
+                  value=""
+                />
+                <div
+                  class="password-strength hidden | flex flex-ai-c flex-jc-sb"
+                >
+                  <div class="strength">
+                    <div class="strength-fill"></div>
+                  </div>
+                  <div class="strength-text">Weak</div>
+                </div>
+                <div class="input__validation hidden flex flex-ai-c">
+                  <svg
+                    class="validation__icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                    />
+                  </svg>
+                  <p class="validation__text">Field not valid.</p>
+                </div>
+              </div>
+              <div class="field--signup signup__confirm-password">
+                <label for="signup__confirm-password" class="field__title"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  id="signup__confirm-password"
+                  class="field__input"
+                  placeholder=""
+                  autocomplete="current-password"
+                  required
+                  value=""
+                  minlength="8"
+                />
+                <div class="input__validation hidden flex flex-ai-c">
+                  <svg
+                    class="validation__icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8"
+                    />
+                  </svg>
+                  <p class="validation__text">Field not valid.</p>
+                </div>
+              </div>
+            </div>
+            <div class="fields__birth | flex flex-ai-c">
+              <p class="birth__title">Date of Birth</p>
+              <div class="field__birth month">
+                <label for="signup__month">Month</label>
+                <select id="signup__month" required autocomplete="bday-month">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+              <div class="field__birth day">
+                <label for="signup__day">Day</label>
+                <select id="signup__day" required autocomplete="bday-day">
+                  <option value="1">01</option>
+                  <option value="2">02</option>
+                  <option value="3">03</option>
+                  <option value="4">04</option>
+                  <option value="5">05</option>
+                  <option value="6">06</option>
+                  <option value="7">07</option>
+                  <option value="8">08</option>
+                  <option value="9">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+              </div>
+              <div class="field__birth year">
+                <label for="signup__year">Year</label>
+                <input
+                  autocomplete="bday-year"
+                  type="number"
+                  id="signup__year"
+                  min="1920"
+                  required
+                  value="2000"
+                />
+              </div>
+            </div>
+            <div class="fields__gender | flex flex-ai-c | margin-b-sm">
+              <p class="birth__title">Gender</p>
+              <div class="flex flex-ai-c">
+                <label for="male">male</label>
+                <input
+                  type="radio"
+                  name="gender"
+                  id="male"
+                  required
+                  autocomplete="sex"
+                />
+              </div>
+              <div class="flex flex-ai-c">
+                <label for="female">female</label>
+                <input type="radio" name="gender" id="female" />
+              </div>
+            </div>
+            <button class="btn btn--primary">Create an account</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
