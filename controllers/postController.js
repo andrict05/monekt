@@ -5,10 +5,14 @@ import Post from "../models/postModel.js";
 export const getAllPosts = catchAsyncError(async (request, response, next) => {
   const page = +request.query.page || 1;
   const limit = +request.query.limit || 10;
+  const sort = request.query.sort || "datePosted";
   const skip = (page - 1) * limit;
   let query = Post.find().skip(skip).limit(limit);
-  query = query.populate({ path: "author", select: "username profilePicture" });
-  const posts = await query;
+  query = query.populate({
+    path: "author",
+    select: "_id username profilePicture",
+  });
+  const posts = await query.sort(sort);
   response.status(200).json({
     status: "success",
     results: posts.length,

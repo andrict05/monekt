@@ -14,6 +14,16 @@
     <script type="module" defer src="js/home.js"></script>
   </head>
   <body>
+    <div class="overlay">
+      <div class="loading">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
     <header class="header"></header>
     <div class="[ container ] [ flex ]">
       <aside class="[ aside ]">
@@ -47,7 +57,7 @@
                 </a>
               </li>
               <li class="nav__item">
-                <a href="/" class="nav__link">
+                <a href="/" class="nav__link" id="profile-link">
                   <svg
                     class="nav__icon"
                     xmlns="http://www.w3.org/2000/svg"
@@ -119,6 +129,17 @@
               />
               <span class="post__username">@username</span>
               <span class="post__date">January 1, 2024 9:06pm</span>
+              <div class="post__options">
+                <img
+                  src="img/three-dots.svg"
+                  style="padding: 0.4rem"
+                  alt="Post options"
+                />
+                <div class="options__dropdown hidden">
+                  <button class="delete__post">Delete post</button><br>
+                  <button class="visit__profile">Visit profile</button>
+                </div>
+              </div>
             </header>
             <div class="article-body">
               <p class="post__text">

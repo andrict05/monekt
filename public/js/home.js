@@ -1,3 +1,11 @@
+const showLoading = (show) => {
+  document
+    .querySelector(".overlay")
+    .classList[show ? "remove" : "add"]("hidden");
+};
+
+showLoading(true);
+
 const postsContainer = document.querySelector("#posts");
 
 const response = await fetch("api/v1/users/authenticated", {
@@ -15,16 +23,25 @@ const imgEl = userData.querySelector("img");
 const spanEl = userData.querySelector("span");
 imgEl.src = "img/" + user.profilePicture;
 spanEl.textContent = user.username;
+document.querySelector("#profile-link").href = "/profile/" + user._id;
 
 const postResponse = await fetch("api/v1/posts");
 const userPosts = (await postResponse.json()).data.posts;
-console.log(userPosts);
 
 const renderUserPosts = (data) => {
-  postsContainer.innerHTML = "";
+  // postsContainer.innerHTML = "";
   data.forEach((post) => {
+    const postTime = new Date(post.datePosted).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    });
     const html = `
-    <article class="post" data-post-id="${post._id}">
+    <article class="post" data-post-id="${post._id}" data-user-id="${
+      post.author._id
+    }">
     <header class="article-header [ flex flex-ai-c ]">
     <img
     src="img/${post.author.profilePicture}"
@@ -32,7 +49,22 @@ const renderUserPosts = (data) => {
     class="post__profile-photo"
     />
     <span class="post__username">${post.author.username}</span>
-    <span class="post__date">${post.datePosted}</span>
+    <span class="post__date">${postTime}</span>
+    <div class="post__options">
+                <img
+                  src="img/three-dots.svg"
+                  style="padding: 0.4rem"
+                  alt="Post options"
+                />
+                <div class="options__dropdown hidden">
+                  ${
+                    user._id === post.author._id
+                      ? `<button class="delete__post">Delete post</button><br>`
+                      : ""
+                  }
+                  <button class="visit__profile">Visit profile</button>
+                </div>
+              </div>
     </header>
     <div class="article-body">
     <p class="post__text">
@@ -73,7 +105,7 @@ const renderUserPosts = (data) => {
         </footer>
         </article>
         `;
-    postsContainer.insertAdjacentHTML("beforeend", html);
+    postsContainer.insertAdjacentHTML("afterbegin", html);
   });
 };
 try {
@@ -95,7 +127,10 @@ document
     window.location.reload();
   });
 
-document.querySelector("#create-post").addEventListener("click", async (e) => {
+const createPostBtn = document.querySelector("#create-post");
+
+createPostBtn.addEventListener("click", async (e) => {
+  createPostBtn.disabled = true;
   e.preventDefault();
   const container = document.querySelector(".create-a-post");
   const text = container.querySelector("#create__text");
@@ -111,12 +146,45 @@ document.querySelector("#create-post").addEventListener("click", async (e) => {
       author: user._id,
     }),
   });
-  alert(await response.json());
+  const responseData = await response.json();
+  console.log(responseData);
+  createPostBtn.disabled = false;
+  window.location.reload();
 });
-
-postsContainer.addEventListener("click", (e) => {
+let lastOptions = null;
+postsContainer.addEventListener("click", async (e) => {
   const post = e.target.closest(".post");
   if (!post) return;
-  const postId = post.dataset.postId;
-  const likeBtn = e.target.closest(".like-post");
+  // TODO
+  // const postId = post.dataset.postId;
+  // const likeBtn = e.target.closest(".like-post");
+  const optionsContainerEl = e.target.closest(".post__options");
+  if (optionsContainerEl) {
+    const optionsImgEl = optionsContainerEl.querySelector("img");
+    if (e.target === optionsImgEl) {
+      const dropdown = optionsContainerEl.querySelector(".options__dropdown");
+      if (lastOptions !== dropdown) lastOptions?.classList.add("hidden");
+      dropdown.classList.toggle("hidden");
+      lastOptions = dropdown;
+    }
+    const deleteBtn = optionsContainerEl.querySelector(".delete__post");
+    const viewProfileBtn = optionsContainerEl.querySelector(".visit__profile");
+    if (e.target == deleteBtn) {
+      const postId = post.dataset.postId;
+      console.log(postId);
+      const deleteResponse = await fetch("api/v1/posts/" + postId, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (deleteResponse.ok) {
+        post.remove();
+      }
+    }
+    if (e.target == viewProfileBtn) {
+      const userId = post.dataset.userId;
+      window.location.href = "/profile/" + userId;
+    }
+  }
 });
+
+showLoading(false);
