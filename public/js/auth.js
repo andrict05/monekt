@@ -1,3 +1,16 @@
+const HOSTNAME = `http://localhost/`;
+
+(async () => {
+  const response = await fetch(HOSTNAME + "api/v1/users/authenticated", {
+    credentials: "include",
+  });
+  const data = await response.json();
+  const user = data?.data?.user;
+  if (user) {
+    window.location.href = "/home.html";
+  }
+})();
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
@@ -27,9 +40,17 @@ const showSignup = () => {
 };
 
 const showLoading = (show = false) => {
-  if (!show) loadingOverlayEl.classList.add("hidden");
-  if (show) loadingOverlayEl.classList.remove("hidden");
+  loadingOverlayEl.classList[show ? "remove" : "add"]("hidden");
 };
+
+if (urlParams.get("login") !== null) {
+  showLogin();
+  window.history.replaceState({}, "test", window.location.href.split("?")?.[0]);
+}
+if (urlParams.get("signup") !== null) {
+  showSignup();
+  window.history.pushState({}, "test", window.location.href.split("?")?.[0]);
+}
 
 let timeout;
 const displayMessage = (message, type = "info", time = 5) => {
@@ -49,15 +70,6 @@ const displayMessage = (message, type = "info", time = 5) => {
   }, time * 1000);
   displaying = true;
 };
-
-if (urlParams.get("login") !== null) {
-  showLogin();
-  window.history.replaceState({}, "test", window.location.href.split("?")?.[0]);
-}
-if (urlParams.get("signup") !== null) {
-  showSignup();
-  window.history.pushState({}, "test", window.location.href.split("?")?.[0]);
-}
 
 document.querySelector('a[href="?login"]')?.addEventListener("click", (e) => {
   e.preventDefault();
@@ -90,7 +102,7 @@ document.querySelector(".form--login").addEventListener("submit", async (e) => {
     pwValidEl.classList.add("hidden");
   }
   showLoading(true);
-  const response = await fetch("api/v1/users/login", {
+  const response = await fetch(HOSTNAME + "api/v1/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -109,7 +121,7 @@ document.querySelector(".form--login").addEventListener("submit", async (e) => {
   }
   // window.localStorage.setItem('jwt', data.token);
   const user = data.data.data;
-  window.location.href = "/";
+  window.location.href = "/home.html";
 });
 
 document
@@ -120,7 +132,7 @@ document
     const emailEl = document.getElementById("signup__email");
     const passwordEl = document.getElementById("signup__password");
     const confirmPasswordEl = document.getElementById(
-      "signup__confirm-password"
+      "signup__confirm-password",
     );
     const monthEl = document.querySelector("#signup__month");
     const dayEl = document.querySelector("#signup__day");
@@ -174,7 +186,7 @@ document
     const confirmPasswordValidationEl = confirmPasswordEl.nextElementSibling;
     if (confirmPasswordEl.value !== passwordEl.value) {
       confirmPasswordValidationEl.querySelector(
-        ".validation__text"
+        ".validation__text",
       ).textContent = "Passwords do not match.";
       confirmPasswordValidationEl.classList.remove("hidden");
       return;
@@ -199,7 +211,7 @@ document
       birthDate: new Date(date).toISOString(),
       gender,
     };
-    const response = await fetch("api/v1/users/signup", {
+    const response = await fetch(HOSTNAME + "api/v1/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -236,7 +248,7 @@ document.querySelector("#signup__password").addEventListener("keyup", (e) => {
       pointsForContainingUpper: 10,
       pointsForContainingNumber: 10,
       pointsForContainingSymbol: 10,
-    }
+    },
   );
   strengthEl.style.width = `${(score / 40) * 100}%`;
   if (score <= 10) {
@@ -252,7 +264,7 @@ document.querySelector("#signup__password").addEventListener("keyup", (e) => {
     strengthTextEl.textContent = "Excellent";
     pwStrengthEl.style.setProperty(
       "--strength-color",
-      "var(--color-pw-excellent)"
+      "var(--color-pw-excellent)",
     );
   }
 });
@@ -261,14 +273,3 @@ langSelectEl.addEventListener("change", (e) => {
   document.cookie = `lang=${langSelectEl.value};`;
   window.location.reload();
 });
-
-(async () => {
-  const response = await fetch("api/v1/users/authenticated", {
-    credentials: "include",
-  });
-  const data = await response.json();
-  const user = data?.data?.user;
-  if (user) {
-    window.location.href = "/";
-  }
-})();

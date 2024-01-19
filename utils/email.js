@@ -37,7 +37,7 @@ export default class Email {
       `${__dirname}/../views/emails/${template}.pug`,
       {
         data: { ...this.data, subject },
-      }
+      },
     );
     const mailOptions = {
       from: this.from,

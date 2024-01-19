@@ -13,8 +13,9 @@ const router = express.Router();
 /**************************************************/
 // ENDPOINTS
 /**************************************************/
-router.get('/', viewController.showRoot);
-router.get('/login', viewController.showLogin);
-router.get('/signup', viewController.showSignup);
+// router.get('/', viewController.showRoot);
+router.get('/signin', viewController.renderSigninPage);
+router.get('/signup', viewController.renderSignupPage);
+router.get('/forgot-password', viewController.renderForgotPasswordPage);
 
 export default router;

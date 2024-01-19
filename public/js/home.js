@@ -1,3 +1,5 @@
+const HOSTNAME = `http://localhost/`;
+
 const showLoading = (show) => {
   document
     .querySelector(".overlay")
@@ -8,15 +10,16 @@ showLoading(true);
 
 const postsContainer = document.querySelector("#posts");
 
-const response = await fetch("api/v1/users/authenticated", {
+const response = await fetch(HOSTNAME + "api/v1/users/authenticated", {
   credentials: "include",
 });
 const data = await response.json();
 const user = data?.data?.user;
 if (!user) {
-  window.location.href = "/login";
+  window.location.href = "/auth.html";
   throw new Error("Please login to get access to the homepage.");
 }
+console.log(user);
 
 const userData = document.querySelector(".user-data");
 const imgEl = userData.querySelector("img");
@@ -25,8 +28,11 @@ imgEl.src = "img/" + user.profilePicture;
 spanEl.textContent = user.username;
 document.querySelector("#profile-link").href = "/profile/" + user._id;
 
-const postResponse = await fetch("api/v1/posts");
-const userPosts = (await postResponse.json()).data.posts;
+const postResponse = await fetch(HOSTNAME + "api/v1/posts", {
+  credentials: "include",
+});
+const postJson = await postResponse.json();
+const userPosts = postJson.data.posts;
 
 const renderUserPosts = (data) => {
   // postsContainer.innerHTML = "";
@@ -118,12 +124,12 @@ document
   .querySelector(`a[href="/logout"]`)
   .addEventListener("click", async (e) => {
     e.preventDefault();
-    const response = await fetch("api/v1/users/logout", {
+    const response = await fetch(HOSTNAME + "api/v1/users/logout", {
       method: "POST",
       credentials: "include",
     });
     const data = await response.json();
-    window.location.href = "/login";
+    window.location.href = "/auth.html";
     window.location.reload();
   });
 
@@ -135,7 +141,7 @@ createPostBtn.addEventListener("click", async (e) => {
   const container = document.querySelector(".create-a-post");
   const text = container.querySelector("#create__text");
   if (!text.value) return;
-  const response = await fetch("api/v1/posts", {
+  const response = await fetch(HOSTNAME + "api/v1/posts", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -172,7 +178,7 @@ postsContainer.addEventListener("click", async (e) => {
     if (e.target == deleteBtn) {
       const postId = post.dataset.postId;
       console.log(postId);
-      const deleteResponse = await fetch("api/v1/posts/" + postId, {
+      const deleteResponse = await fetch(HOSTNAME + "api/v1/posts/" + postId, {
         method: "DELETE",
         credentials: "include",
       });
