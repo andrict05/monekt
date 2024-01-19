@@ -2,11 +2,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
-import globalErrorHandler from "./controllers/errorController.js";
+// import globalErrorHandler from "./controllers/errorController.js";
 import cookieParser from "cookie-parser";
-import userRouter from "./routes/userRouter.js";
-import postRouter from "./routes/postRouter.js";
-import viewRouter from "./routes/viewRouter.js";
+// import userRouter from "./routes/userRouter.js";
+// import postRouter from "./routes/postRouter.js";
+// import viewRouter from "./routes/viewRouter.js";
 import morgan from "morgan";
 import livereload from "livereload";
 import connectLiveReload from "connect-livereload";
@@ -16,49 +16,44 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 
 const app = express();
 
-if (process.env.NODE_ENV.trim() === "development") {
-  const liveReloadServer = livereload.createServer();
-  liveReloadServer.server.once("connection", () => {
-    setTimeout(() => {
-      liveReloadServer.refresh("/");
-    }, 50);
-  });
-}
-app.use(connectLiveReload());
-app.use(morgan("dev"));
+// if (process.env.NODE_ENV.trim() === "development") {
+//   const liveReloadServer = livereload.createServer();
+//   liveReloadServer.server.once("connection", () => {
+//     setTimeout(() => {
+//       liveReloadServer.refresh("/");
+//     }, 50);
+//   });
+// }
+// app.use(connectLiveReload());
+// app.use(morgan("dev"));
 
 /**************************************************/
 // MIDDLEWARES
 /**************************************************/
 // Define templating engine and template directory.
 app.set("views", "./views");
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 // Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 // Parse body
 app.use(express.json({ limit: "10KB" }));
 // Parse query parameters
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // Parse cookies
 app.use(cookieParser());
-// Allow CORS
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost", "http://127.0.0.1:5500"],
-  })
-);
 
 /**************************************************/
 // ENDPOINTS
 /**************************************************/
-app.use("/", viewRouter);
+app.use("/", (req, res, next) => {
+  res.status(200).send("Hello from the server!");
+});
 
 /**************************************************/
 // API ENDPOINTS
 /**************************************************/
-app.use(`/api/v1/users`, userRouter);
-app.use(`/api/v1/posts`, postRouter);
+// app.use(`/api/v1/users`, userRouter);
+// app.use(`/api/v1/posts`, postRouter);
 
 /**************************************************/
 // HANDLING NON-EXISTENT ENDPOINTS
@@ -74,6 +69,8 @@ app.all("*", (req, res, next) => {
 /**************************************************/
 // HANDLING ERRORS
 /**************************************************/
-app.use(globalErrorHandler);
+app.use((err, req, res, next) => {
+  return res.status(500).json({ status: "fail", error: err });
+});
 
 export default app;
