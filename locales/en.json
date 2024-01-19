@@ -1,0 +1,66 @@
+{
+  "language": {
+    "croatian": {
+      "name": "Croatian",
+      "localName": "Hrvatski",
+      "code": "hr"
+    },
+    "english": {
+      "name": "English",
+      "localName": "English",
+      "code": "en"
+    }
+  },
+  "page": {
+    "signup": {
+      "heading": "Sign up for an account",
+      "alreadyHaveAccount": "Already have an account?"
+    },
+    "signin": {
+      "heading": "Sign in to your account",
+      "noAccount": "Not a member?"
+    },
+    "forgotPassword": {
+      "heading": "Reset your password",
+      "noEmail": "Haven't received an email?"
+    }
+  },
+  "text": {
+    "buttons": {
+      "signup": "Sign up",
+      "signin": "Sign in",
+      "resetPassword": "Reset password",
+      "resendEmail": "Resend email"
+    },
+    "username": "Username",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password?",
+    "birthDate": "Birth date",
+    "month": {
+      "month": "Month",
+      "jan": "January",
+      "feb": "February",
+      "mar": "March",
+      "apr": "April",
+      "may": "May",
+      "jun": "June",
+      "jul": "July",
+      "aug": "August",
+      "sep": "September",
+      "oct": "October",
+      "nov": "November",
+      "dec": "December"
+    },
+    "day": {
+      "day": "Day"
+    },
+    "year": "Year",
+    "gender": {
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female"
+    }
+  }
+}

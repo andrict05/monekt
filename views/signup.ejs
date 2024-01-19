@@ -8,10 +8,11 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
       rel="stylesheet" />
-    <title>Monekt | <%= title %></title>
+    <title>Monekt - <%= title %></title>
     <link rel="stylesheet" href="css/output.css" />
   </head>
-  <body class="flex h-screen w-screen items-center justify-center bg-sky-50">
+  <body
+    class="flex h-screen w-screen flex-col items-center justify-center bg-sky-50">
     <main
       class="flex w-96 flex-col items-center justify-center gap-9 rounded-lg bg-white p-6 shadow-sm lg:w-auto lg:flex-row lg:gap-32 lg:p-16">
       <div class="">
@@ -22,7 +23,7 @@
             alt="Monekt" />
           <h2
             class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign up for an account
+            <%= locale.page.signup.heading %>
           </h2>
         </div>
       </div>
@@ -53,7 +54,7 @@
               <label
                 for="username"
                 class="block text-sm font-medium leading-6 text-gray-900"
-                >Username</label
+                ><%= locale.text.username %></label
               >
               <div class="mt-2">
                 <input
@@ -73,7 +74,7 @@
               <label
                 for="email"
                 class="block text-sm font-medium leading-6 text-gray-900"
-                >Email</label
+                ><%= locale.text.email %></label
               >
               <div class="mt-2">
                 <input
@@ -93,7 +94,7 @@
               <label
                 for="password"
                 class="block text-sm font-medium leading-6 text-gray-900"
-                >Password</label
+                ><%= locale.text.password %></label
               >
               <div class="mt-2">
                 <input
@@ -113,7 +114,7 @@
               <label
                 for="confirmPassword"
                 class="block text-sm font-medium leading-6 text-gray-900">
-                Confirm password</label
+                <%= locale.text.confirmPassword %></label
               >
               <div class="mt-2">
                 <input
@@ -132,7 +133,7 @@
             <div class="">
               <label
                 class="block min-w-0 text-sm font-medium leading-6 text-gray-900"
-                >Birth date</label
+                ><%= locale.text.birthDate %></label
               >
               <div
                 class="grid grid-cols-[1.3fr_1.1fr_0.9fr] gap-x-1 lg:grid-cols-[1.5fr_1.5fr_1fr]">
@@ -142,19 +143,19 @@
                   required
                   id="month"
                   class="w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 [.invalid_&]:ring-red-500">
-                  <option value="">Month</option>
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
-                  <option value="4">April</option>
-                  <option value="5">May</option>
-                  <option value="6">June</option>
-                  <option value="7">July</option>
-                  <option value="8">August</option>
-                  <option value="9">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
+                  <option value=""><%= locale.text.month.month %></option>
+                  <option value="1"><%= locale.text.month.jan %></option>
+                  <option value="2"><%= locale.text.month.feb %></option>
+                  <option value="3"><%= locale.text.month.mar %></option>
+                  <option value="4"><%= locale.text.month.apr %></option>
+                  <option value="5"><%= locale.text.month.may %></option>
+                  <option value="6"><%= locale.text.month.jun %></option>
+                  <option value="7"><%= locale.text.month.jul %></option>
+                  <option value="8"><%= locale.text.month.aug %></option>
+                  <option value="9"><%= locale.text.month.sep %></option>
+                  <option value="10"><%= locale.text.month.oct %></option>
+                  <option value="11"><%= locale.text.month.nov %></option>
+                  <option value="12"><%= locale.text.month.dec %></option>
                 </select>
                 <select
                   name="day"
@@ -162,7 +163,7 @@
                   required
                   id="day"
                   class="w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 [.invalid_&]:ring-red-500">
-                  <option value="">Day</option>
+                  <option value=""><%= locale.text.day.day %></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -202,7 +203,7 @@
                   id="year"
                   size="4"
                   maxlength="4"
-                  placeholder="Year"
+                  placeholder="<%= locale.text.year %>"
                   class="w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-900 [.invalid_&]:text-red-500 [.invalid_&]:ring-red-500" />
                 <script>
                   document
@@ -212,23 +213,29 @@
               </div>
             </div>
             <div
-              class="grid grid-cols-2 justify-items-center gap-5 text-sm font-normal text-gray-900 invalid:text-red-500">
-              <div class="justify-self-end">
+              class="gap-5 text-sm font-normal text-gray-900 invalid:text-red-500">
+              <label
+                class="block min-w-0 text-sm font-medium leading-6 text-gray-900"
+                ><%= locale.text.gender.gender %></label
+              >
+              <div class="mr-3 inline-block">
                 <input
                   class="mr-0.5 checked:border-sky-600 checked:text-sky-600"
                   type="radio"
                   name="gender"
                   id="male" />
-                <label for="male" class="[.invalid_&]:text-red-500">Male</label>
+                <label for="male" class="[.invalid_&]:text-red-500"
+                  ><%= locale.text.gender.male %></label
+                >
               </div>
-              <div class="justify-self-start">
+              <div class="inline-block">
                 <input
                   class="mr-0.5 checked:border-sky-600 checked:text-sky-600"
                   type="radio"
                   name="gender"
                   id="female" />
                 <label for="female" class="[.invalid_&]:text-red-500"
-                  >Female</label
+                  ><%= locale.text.gender.female %></label
                 >
               </div>
             </div>
@@ -236,20 +243,28 @@
               <button
                 type="submit"
                 class="flex w-full min-w-0 justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">
-                Sign up
+                <%= locale.text.buttons.signup %>
               </button>
             </div>
           </form>
           <p class="mt-6 text-center text-sm text-gray-500">
-            Have an account?
+            <%= locale.page.signup.alreadyHaveAccount %>
             <a
               href="/signin"
               class="font-semibold leading-6 text-sky-600 hover:text-sky-500">
-              Sign in</a
+              <%= locale.text.buttons.signin %></a
             >
           </p>
         </div>
       </div>
     </main>
+    <div class="mt-4 space-x-2 text-xs font-light text-gray-600">
+      <a href="?lang=en" class="hover:text-gray-900"
+        ><%= locale.language.english.name %></a
+      >
+      <a href="?lang=hr" class="hover:text-gray-900"
+        ><%= locale.language.croatian.name %></a
+      >
+    </div>
   </body>
 </html>

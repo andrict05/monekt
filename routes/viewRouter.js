@@ -14,6 +14,13 @@ const router = express.Router();
 // ENDPOINTS
 /**************************************************/
 // router.get('/', viewController.showRoot);
+
+// Language middleware
+router.use((req, res, next) => {
+  req.lang = req.query.lang || req.cookies.lang;
+  next();
+});
+
 router.get('/signin', viewController.renderSigninPage);
 router.get('/signup', viewController.renderSignupPage);
 router.get('/forgot-password', viewController.renderForgotPasswordPage);
