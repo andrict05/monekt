@@ -10,6 +10,7 @@ import viewRouter from './routes/viewRouter.js';
 import morgan from 'morgan';
 import livereload from 'livereload';
 import connectLiveReload from 'connect-livereload';
+import { watch } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -17,16 +18,25 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 const app = express();
 
 if (process.env.NODE_ENV.trim() === 'development') {
-  const liveReloadServer = livereload.createServer();
+  const extensionsToWatch = ['ejs', 'js', 'css', 'html', 'json'];
+  const liveReloadServer = livereload.createServer({
+    port: 35729,
+    debug: false,
+    exts: extensionsToWatch,
+  });
   liveReloadServer.server.once('connection', () => {
     setTimeout(() => {
       liveReloadServer.refresh('/');
-    }, 50);
+    }, 10);
   });
+  watch(path.join(__dirname), { recursive: true }, (type, file) => {
+    if (!extensionsToWatch.includes(file.split('.')[1])) return;
+    liveReloadServer.refresh('/');
+  });
+  app.use(morgan('dev'));
 }
-app.use(connectLiveReload());
-app.use(morgan('dev'));
 
+app.use(connectLiveReload());
 /**************************************************/
 // MIDDLEWARES
 /**************************************************/

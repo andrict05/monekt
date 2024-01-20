@@ -1,6 +1,6 @@
-import express from "express";
-import * as authController from "../controllers/authController.js";
-import * as postController from "../controllers/postController.js";
+import express from 'express';
+import * as authController from '../controllers/authController.js';
+import * as postController from '../controllers/postController.js';
 
 const router = express.Router();
 
@@ -11,14 +11,14 @@ const router = express.Router();
 router.use(authController.protectRoute);
 
 router
-  .route("/")
+  .route('/')
   .get(postController.getAllPosts)
   .post(postController.createPost);
 
-router.get("/myPosts", postController.getMyPosts);
+router.get('/myPosts', postController.getMyPosts);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(postController.getPostById)
   .delete(postController.deletePost);
 
