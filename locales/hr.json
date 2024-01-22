@@ -15,8 +15,9 @@
     "MISSING_EMAIL": "Unesite email adresu.",
     "MISSING_GENDER": "Odaberite svoj spol.",
     "MISSING_PASSWORD": "Unesite Vašu lozinku i pokušajte ponovno.",
-    "MISSING_PASSWORD_CONFIRM": "Lozinke se ne poklapaju.",
+    "MISSING_PASSWORD_CONFIRM": "Lozinke se ne podudaraju.",
     "MISSING_USERNAME": "Unesite korisničko ime.",
+    "PASSWORD_MISSMATCH": "Lozinke se ne podudaraju.",
     "RESET_TIME_EXPIRED": "Reset token je istekao, pokušajte ponovno.",
     "RESET_TOKEN_SENT": "Reset token je poslan na Vašu email adresu."
   },

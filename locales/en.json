@@ -17,6 +17,7 @@
     "MISSING_PASSWORD": "Please fill in your password and try again.",
     "MISSING_PASSWORD_CONFIRM": "Passwords do not match.",
     "MISSING_USERNAME": "Please enter your username.",
+    "PASSWORD_MISSMATCH": "Passwords do not match.",
     "RESET_TIME_EXPIRED": "Password reset time expired, please try again.",
     "RESET_TOKEN_SENT": "Password reset token has been sent to your email address."
   },

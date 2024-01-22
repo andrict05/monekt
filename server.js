@@ -9,7 +9,7 @@ let server;
 
 const databaseURL = `${process.env.MONGODB_DATABASE_URL.replace(
   `<password>`,
-  process.env.MONGODB_PASSWORD
+  process.env.MONGODB_PASSWORD,
 )}`;
 mongoose
   .connect(databaseURL, { dbName: 'monekt' })
@@ -35,5 +35,6 @@ process.on('unhandledRejection', (err) => {
 process.on('uncaughtException', (err) => {
   console.log('Uncaught exception!');
   console.log(err.name, err.message);
+  process.env.NODE_ENV.trim() === 'development' && console.log(err.stack);
   process.exit(1);
 });

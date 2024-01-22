@@ -18,10 +18,19 @@ const handleDuplicateFieldsDB = (error) => {
   );
 };
 
-const handleValidationErrorDB = (err) => {
+const handleValidationErrorDB = (err, req) => {
   const errors = Object.values(err.errors).map((el) => el.message);
 
-  const message = 'Invalid input data. ' + errors.join('. ');
+  const message = errors
+    .map((err) => {
+      console.log({
+        translated: locales[req.lang].errors?.[err],
+        err,
+        lang: req.lang,
+      });
+      return locales[req.lang].errors?.[err] || 'Unexpected error.';
+    })
+    .join(' ');
   return new AppError(message, 400);
 };
 
@@ -35,7 +44,8 @@ export default (error, request, response, next) => {
 
   if (error.name === 'CastError') err = handleCastErrorDB(error);
   if (error.code === 11000) err = handleDuplicateFieldsDB(error);
-  if (error.name === 'ValidationError') err = handleValidationErrorDB(error);
+  if (error.name === 'ValidationError')
+    err = handleValidationErrorDB(error, request);
   if (error.name === 'JsonWebTokenError') err = handleJWTError(error);
   if (error.name === 'TokenExpiredError') err = handleJWTExpiredError(error);
   const statusCode = err.statusCode ?? 500;

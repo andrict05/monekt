@@ -1,3 +1,7 @@
+if (window.location.search.indexOf('?lang=') === 0) {
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
 const formSigninEl = document.querySelector('#form-signin');
 const inputEmailEl = document.querySelector('#email');
 const inputPasswordEl = document.querySelector('#password');
