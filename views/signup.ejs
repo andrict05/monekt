@@ -1,7 +1,7 @@
 <!doctype html>
 <html
   lang="en"
-  class="xs:text-[87.5%] text-[62.5%] sm:text-[100%] xl:text-[112.5%]">
+  class="text-[62.5%] xs:text-[87.5%] sm:text-[100%] xl:text-[112.5%]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,30 +16,10 @@
   </head>
   <body
     class="relative flex h-screen w-screen flex-col items-center justify-center bg-sky-50">
-    <div
-      role="alert"
-      class="alert-hidden absolute top-6 mx-2 mb-6 h-auto max-w-screen-sm rounded border-s-4 border-red-500 bg-red-50 p-4 transition-transform sm:mx-0 [&.alert-hidden]:-translate-y-96">
-      <div class="flex h-auto w-auto items-center gap-2 text-red-800">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
-            d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-            clip-rule="evenodd" />
-        </svg>
-        <strong role="alert-title" class="block w-auto font-medium">
-          Something went wrong
-        </strong>
-      </div>
-      <p class="mt-2 h-auto w-auto text-sm text-red-700" role="alert-message">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-      </p>
-    </div>
+    <%- include('templates/alert') %>
+
     <main
-      class="xs:w-80 flex w-72 flex-col items-center justify-center gap-9 rounded-lg bg-white p-6 shadow-sm lg:w-auto lg:flex-row lg:gap-32 lg:p-16">
+      class="flex w-72 flex-col items-center justify-center gap-9 rounded-lg bg-white p-4 shadow-sm xs:w-80 lg:w-auto lg:flex-row lg:gap-32 lg:p-8">
       <div class="">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -54,18 +34,14 @@
       </div>
       <div class="w-64 lg:w-72">
         <div class="">
-          <form
-            id="form-signup"
-            action="#"
-            class="space-y-4 lg:space-y-6"
-            method="POST">
+          <form id="form-signup" action="#" class="space-y-3" method="POST">
             <div class="">
               <label
                 for="username"
                 class="block text-sm font-medium leading-6 text-gray-900"
                 ><%= locale.text.username %></label
               >
-              <div class="mt-2">
+              <div class="mt-0.5">
                 <input
                   class="w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 sm:text-sm sm:leading-6 [.invalid_&]:text-red-500 [.invalid_&]:ring-red-500"
                   type="text"
@@ -85,7 +61,7 @@
                 class="block text-sm font-medium leading-6 text-gray-900"
                 ><%= locale.text.email %></label
               >
-              <div class="mt-2">
+              <div class="mt-0.5">
                 <input
                   class="w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 sm:text-sm sm:leading-6 [.invalid_&]:text-red-500 [.invalid_&]:ring-red-500"
                   type="email"
@@ -105,7 +81,7 @@
                 class="block text-sm font-medium leading-6 text-gray-900"
                 ><%= locale.text.password %></label
               >
-              <div class="mt-2">
+              <div class="mt-0.5">
                 <input
                   class="w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 sm:text-sm sm:leading-6 [.invalid_&]:text-red-500 [.invalid_&]:ring-red-500"
                   type="password"
@@ -125,7 +101,7 @@
                 class="block text-sm font-medium leading-6 text-gray-900">
                 <%= locale.text.confirmPassword %></label
               >
-              <div class="mt-2">
+              <div class="mt-0.5">
                 <input
                   class="w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-sky-600 sm:text-sm sm:leading-6 [.invalid_&]:text-red-500 [.invalid_&]:ring-red-500"
                   type="password"
@@ -268,13 +244,6 @@
         </div>
       </div>
     </main>
-    <div class="mt-4 space-x-2 text-sm font-normal text-gray-600">
-      <a href="?lang=en" class="hover:text-gray-900"
-        ><%= locale.language.english.name %></a
-      >
-      <a href="?lang=hr" class="hover:text-gray-900"
-        ><%= locale.language.croatian.name %></a
-      >
-    </div>
+    <%- include('templates/languageSelect', locale) %>
   </body>
 </html>

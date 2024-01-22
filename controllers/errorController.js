@@ -1,4 +1,5 @@
 import AppError from '../utils/appError.js';
+import { locales } from '../utils/localization.js';
 
 const handleCastErrorDB = (err) => {
   const message = `Invalid ${err.path}: ${err.value}`;
@@ -6,15 +7,14 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (error) => {
-  if (error.keyPattern?.email)
-    return new AppError(`This email address already belongs to someone.`, 400);
+  if (error.keyPattern?.email) return new AppError(`DUPLICATE_EMAIL`, 400);
   if (error.keyPattern?.username)
-    return new AppError(`This username already belongs to someone.`, 400);
+    return new AppError(`DUPLICATE_USERNAME`, 400);
   return new AppError(
-    `Duplicate field value: ${
-      Object.keys(error.keyPattern)[0]
-    }. Please use another value!`,
-    400
+    `Duplicate field value: ${Object.keys(error.keyPattern).join(
+      ', ',
+    )}. Please use another value!`,
+    400,
   );
 };
 
@@ -25,10 +25,9 @@ const handleValidationErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
-const handleJWTError = () => new AppError('Invalid token! Please log in.', 401);
+const handleJWTError = () => new AppError('AUTH_UNAUTHENTICATED', 401);
 
-const handleJWTExpiredError = () =>
-  new AppError('Your token has expired! Please log in.', 401);
+const handleJWTExpiredError = () => new AppError('AUTH_TOKEN_EXPIRED', 401);
 
 export default (error, request, response, next) => {
   let err = { ...error };
@@ -41,10 +40,22 @@ export default (error, request, response, next) => {
   if (error.name === 'TokenExpiredError') err = handleJWTExpiredError(error);
   const statusCode = err.statusCode ?? 500;
 
-  response.status(statusCode).json({
+  let responseMessage = {};
+  const codeMessage = locales[request.lang].errors?.[err.message];
+  if (codeMessage) {
+    responseMessage.messageCode = err.message;
+    responseMessage.messageTitle = locales[request.lang].text['errorTitle'];
+    responseMessage.message = codeMessage;
+  } else {
+    responseMessage.messageCode = 'UNEXPECTED_ERROR';
+    responseMessage.messageTitle = 'Something went wrong';
+    responseMessage.message = err.message;
+  }
+
+  return response.status(statusCode).json({
     isOperational: err?.isOperational ? true : false,
     status: 'error',
     statusCode,
-    message: err.message,
+    ...responseMessage,
   });
 };

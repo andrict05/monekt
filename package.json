@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start:prod": "SET NODE_ENV=production && node server.js",
-    "start:dev": "SET NODE_ENV=development && nodemon --ext js,html,mjs,cjs,json,css --ignore ./public/ server.js"
+    "start:dev": "SET NODE_ENV=development && nodemon --ext js,html,mjs,cjs,json,css --ignore ./public/ server.js",
+    "watch:tailwind": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --watch"
   },
   "keywords": [
     "social network",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "connect-livereload": "^0.6.1",
+    "eslint": "^8.56.0",
     "livereload": "^0.9.3",
     "nodemon": "^3.0.2",
     "prettier": "^3.2.4",

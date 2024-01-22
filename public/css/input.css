@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  [role='alert'] {
+    &[data-type='error'] {
+      @apply border-red-500 bg-red-50 text-red-700;
+
+      & svg:not(.error) {
+        @apply hidden;
+      }
+
+      & [role='alert-title'] {
+        @apply text-red-800;
+      }
+
+      & [role='alert-message'] {
+        @apply text-red-700;
+      }
+    }
+    &[data-type='info'] {
+      @apply border-blue-500 bg-blue-100 text-blue-800;
+
+      & svg:not(.info) {
+        @apply hidden;
+      }
+
+      & [role='alert-title'] {
+        @apply text-blue-800;
+      }
+
+      & [role='alert-message'] {
+        @apply text-blue-700;
+      }
+    }
+    &[data-type='warning'] {
+      @apply border-yellow-500 bg-yellow-50 text-yellow-700;
+
+      & svg:not(.warning) {
+        @apply hidden;
+      }
+
+      & [role='alert-title'] {
+        @apply text-yellow-800;
+      }
+
+      & [role='alert-message'] {
+        @apply text-yellow-700;
+      }
+    }
+    &[data-type='success'] {
+      @apply border-green-500 bg-green-50 text-green-700;
+
+      & svg:not(.success) {
+        @apply hidden;
+      }
+
+      & [role='alert-title'] {
+        @apply text-green-800;
+      }
+
+      & [role='alert-message'] {
+        @apply text-green-700;
+      }
+    }
+  }
+}

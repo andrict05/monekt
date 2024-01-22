@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./public/**/*.{html,js,ejs}', './views/*.{html,js,ejs}'],
+  content: ['./public/**/*.{html,js,ejs}', './views/**/*.{html,js,ejs}'],
   plugins: [require('@tailwindcss/forms')],
   theme: {
     extend: {

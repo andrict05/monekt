@@ -12,6 +12,8 @@ const showAlertMessage = (
   duration = 5,
 ) => {
   alertEl.classList.remove('alert-hidden');
+  alertEl.setAttribute('data-type', type);
+
   alertEl.querySelector('[role="alert-title"]').textContent = title;
   alertEl.querySelector('[role="alert-message"]').textContent = message;
   alertTimeout && clearTimeout(alertTimeout);

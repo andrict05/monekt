@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import crypto from "crypto";
+import mongoose from 'mongoose';
+import validator from 'validator';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 /**************************************************/
 // SCHEMA
@@ -9,20 +9,20 @@ import crypto from "crypto";
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, "Username is required."],
+    required: [true, 'MISSING_USERNAME'],
     unique: true,
     minLength: 3,
   },
   email: {
     type: String,
-    required: [true, "Email is required."],
+    required: [true, 'MISSING_EMAIL'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Email is not valid."],
+    validate: [validator.isEmail, 'INVALID_EMAIL'],
   },
   password: {
     type: String,
-    required: [true, "Password is required."],
+    required: [true, 'MISSING_PASSWORD'],
     select: false,
     minLength: 8,
   },
@@ -33,26 +33,26 @@ const userSchema = new mongoose.Schema({
       validator: function (el) {
         return el === this.password;
       },
-      message: "Passwords are not the same.",
+      message: 'PASSWORD_MISSMATCH',
     },
     minLength: 8,
-    required: [true, "Please confirm your password"],
+    required: [true, 'MISSING_PASSWORD_CONFIRM'],
   },
   birthDate: {
     type: Date,
-    required: [true, "Please select a birth date"],
+    required: [true, 'MISSING_BIRTHDATE'],
   },
   gender: {
     type: String,
     enum: {
-      values: ["male", "female"],
-      message: "Gender can be male or female",
+      values: ['male', 'female'],
+      message: 'INVALID_GENDER',
     },
-    required: [true, "Gender is required."],
+    required: [true, 'MISSING_GENDER'],
   },
   profilePicture: {
     type: String,
-    default: "avatar-default.svg",
+    default: 'avatar-default.svg',
   },
   profileCoverPicture: {
     type: String,
@@ -63,13 +63,13 @@ const userSchema = new mongoose.Schema({
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   ],
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   ],
   profileCreatedTime: {
@@ -94,23 +94,23 @@ const userSchema = new mongoose.Schema({
 // MIDDLEWARE
 /**************************************************/
 userSchema.pre(/^find/, function (next) {
-  this.select("-__v");
+  this.select('-__v');
   next();
 });
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
   this.passwordConfirm = undefined;
   next();
 });
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password") || this.isNew) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
   this.passwordChangedTime = Date.now() - 1000;
 });
 
-userSchema.post("save", async function (document) {
+userSchema.post('save', async function (document) {
   document.password = undefined;
 });
 
@@ -129,17 +129,17 @@ userSchema.methods.wasPasswordChangedAfter = function (JWTtimestamp) {
 };
 
 userSchema.methods.createPasswordResetToken = async function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetToken = crypto.randomBytes(32).toString('hex');
   const hashedToken = crypto
-    .createHash("sha256")
+    .createHash('sha256')
     .update(resetToken)
-    .digest("hex");
+    .digest('hex');
   this.passwordResetToken = hashedToken;
   this.passwordResetExpireTime = Date.now() + 15 * 60 * 1000;
   await this.save({ validateBeforeSave: true });
   return resetToken;
 };
 
-const userModel = mongoose.model("User", userSchema);
+const userModel = mongoose.model('User', userSchema);
 
 export default userModel;

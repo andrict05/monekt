@@ -1,66 +1,88 @@
 {
+  "errors": {
+    "AUTH_INVALID_CREDENTIALS": "Pogrešni podatci, pokušajte ponovno.",
+    "AUTH_MISSING_CREDENTIALS": "Ispunite sva polja i pokušajte ponovno.",
+    "AUTH_TOKEN_ERROR": "Neuspješna autentikacija, pokušajte ponovno.",
+    "AUTH_TOKEN_EXPIRED": "Sesija je istekla, molimo prijavite se ponovno.",
+    "AUTH_TOKEN_USER_INVALID": "Korisnik ne postoji, molimo prijavite se ponovno.",
+    "AUTH_UNAUTHENTICATED": "Molimo prijavite se ponovno.",
+    "AUTH_USER_INVALID": "Korisnik ne postoji.",
+    "DUPLICATE_EMAIL": "Korisnik s ovom email adresom već postoji.",
+    "DUPLICATE_USERNAME": "Korisnik s ovim korisničkim imenom već postoji.",
+    "INVALID_EMAIL": "Email adresa nije ispravna.",
+    "INVALID_RESET_TOKEN": "Pogrešan reset token..",
+    "MISSING_BIRTHDATE": "Unesite datum rođenja.",
+    "MISSING_EMAIL": "Unesite email adresu.",
+    "MISSING_GENDER": "Odaberite svoj spol.",
+    "MISSING_PASSWORD": "Unesite Vašu lozinku i pokušajte ponovno.",
+    "MISSING_PASSWORD_CONFIRM": "Lozinke se ne poklapaju.",
+    "MISSING_USERNAME": "Unesite korisničko ime.",
+    "RESET_TIME_EXPIRED": "Reset token je istekao, pokušajte ponovno.",
+    "RESET_TOKEN_SENT": "Reset token je poslan na Vašu email adresu."
+  },
   "language": {
     "croatian": {
       "name": "Hrvatski",
-      "localName": "Hrvatski",
-      "code": "hr"
+      "code": "hr",
+      "localName": "Hrvatski"
     },
     "english": {
       "name": "Engleski",
-      "localName": "English",
-      "code": "en"
+      "code": "en",
+      "localName": "English"
     }
   },
   "page": {
-    "signup": {
-      "heading": "Napravi svoj novi račun",
-      "alreadyHaveAccount": "Već imaš račun?"
+    "forgotPassword": {
+      "heading": "Ponovno postavi lozinku",
+      "noEmail": "Nema email-a?"
     },
     "signin": {
       "heading": "Prijavi se u svoj račun",
       "noAccount": "Nemaš napravljen račun?"
     },
-    "forgotPassword": {
-      "heading": "Ponovno postavi lozinku",
-      "noEmail": "Nema email-a?"
+    "signup": {
+      "alreadyHaveAccount": "Već imaš račun?",
+      "heading": "Napravi svoj novi račun"
     }
   },
   "text": {
-    "buttons": {
-      "signup": "Napravi račun",
-      "signin": "Prijavi se",
-      "resetPassword": "Ponovno postavi lozinku",
-      "resendEmail": "Pošalji ponovno"
-    },
-    "username": "Korisničko ime",
-    "email": "Email adresa",
-    "password": "Lozinka",
-    "confirmPassword": "Potvrdi lozinku",
-    "forgotPassword": "Zaboravljena lozinka?",
     "birthDate": "Datum rođenja",
-    "month": {
-      "month": "Mjesec",
-      "jan": "Siječanj",
-      "feb": "Veljača",
-      "mar": "Ožujak",
-      "apr": "Travanj",
-      "may": "Svibanj",
-      "jun": "Lipanj",
-      "jul": "Srpanj",
-      "aug": "Kolovoz",
-      "sep": "Rujan",
-      "oct": "Listopad",
-      "nov": "Studeni",
-      "dec": "Prosinac"
+    "buttons": {
+      "resendEmail": "Pošalji ponovno",
+      "resetPassword": "Ponovno postavi lozinku",
+      "signin": "Prijavi se",
+      "signup": "Napravi račun"
     },
+    "confirmPassword": "Potvrdi lozinku",
     "day": {
       "day": "Dan"
     },
-    "year": "Godina",
+    "email": "Email adresa",
+    "errorTitle": "Ups, nešto je pošlo po zlu!",
+    "forgotPassword": "Zaboravljena lozinka?",
     "gender": {
+      "female": "Žensko",
       "gender": "Spol",
-      "male": "Muško",
-      "female": "Žensko"
-    }
+      "male": "Muško"
+    },
+    "month": {
+      "apr": "Travanj",
+      "aug": "Kolovoz",
+      "dec": "Prosinac",
+      "feb": "Veljača",
+      "jan": "Siječanj",
+      "jul": "Srpanj",
+      "jun": "Lipanj",
+      "mar": "Ožujak",
+      "may": "Svibanj",
+      "month": "Mjesec",
+      "nov": "Studeni",
+      "oct": "Listopad",
+      "sep": "Rujan"
+    },
+    "password": "Lozinka",
+    "username": "Korisničko ime",
+    "year": "Godina"
   }
 }
