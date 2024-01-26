@@ -1,4 +1,4 @@
-import * as authController from '../controllers/authController.js';
+import * as authController from './authController.js';
 import catchAsyncError from '../utils/catchAsyncError.js';
 import { locales } from '../utils/localization.js';
 

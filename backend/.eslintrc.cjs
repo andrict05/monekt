@@ -21,10 +21,12 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-unused-vars': {
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_',
-      caughtErrorsIgnorePattern: '^_',
-    },
+    'no-unused-vars': [
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
 };
