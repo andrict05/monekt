@@ -20,5 +20,5 @@ Social media website for my highschool graduation project.
   - TailwindCSS
 - JavaScript:
   - ReactJS
-- Supabase (Backend as a Service):
-  - PostgreSQL
+- Database:
+  - Supabase (Backend as a Service), PostgreSQL
