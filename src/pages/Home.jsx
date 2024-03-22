@@ -6,7 +6,7 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi2';
 import MenuProvider from '../components/Menu';
-import { useUser } from '../features/auth/useUser';
+import { useAuthenticatedUser } from '../features/auth/useAuthenticatedUser';
 import { useDeletePost } from '../features/post/useDeletePost';
 
 function Home() {
@@ -17,16 +17,16 @@ function Home() {
   return (
     <div className='w-full'>
       <MenuProvider>
-        {data?.map((post) => (
+        {/* {data?.map((post) => (
           <Post key={post.id} post={post} />
-        ))}
+        ))} */}
       </MenuProvider>
     </div>
   );
 }
 
 function Post({ post }) {
-  const { user } = useUser();
+  const { user } = useAuthenticatedUser();
   const { deletePost, isDeleting } = useDeletePost();
 
   function handleDelete(e) {

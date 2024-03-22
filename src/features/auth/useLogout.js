@@ -13,10 +13,10 @@ export function useLogout() {
     isPending: isLoggingOut,
   } = useMutation({
     mutationFn: supabaseLogoutUser,
-    mutationKey: ['user'],
+    mutationKey: ['authenticated-user'],
     onSettled: () => {
       toast.error('You have been logged out.');
-      queryClient.setQueryData(['user'], null);
+      queryClient.setQueryData(['authenticated-user'], null);
       navigate('/signin');
     },
   });

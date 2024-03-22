@@ -1,4 +1,4 @@
-import { Router, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './global.css';
@@ -10,6 +10,7 @@ import AppLayout from './ui/AppLayout';
 import { Toaster } from 'react-hot-toast';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import CreatePost from './pages/CreatePost';
+import RootLayout from './ui/RootLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,43 +23,63 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
-    errorElement: <h1>error occured</h1>,
+    element: <RootLayout />,
+    // TODO: Add error boundary
+    errorElement: (
+      <main className='flex h-screen items-center justify-center'>
+        <h1>Unexpected error occured.</h1>
+      </main>
+    ),
     children: [
       {
-        index: true,
-        element: <Home />,
+        element: <AppLayout />,
+        children: [
+          {
+            index: true,
+            path: '/',
+            element: <Home />,
+          },
+          {
+            path: '/explore',
+            element: <div>Explore</div>,
+          },
+          {
+            path: '/people',
+            element: <div>People</div>,
+          },
+          {
+            path: '/saved',
+            element: <div>Saved</div>,
+          },
+          {
+            path: '/create-post',
+            element: <CreatePost />,
+          },
+        ],
       },
       {
-        path: '/explore',
-        element: <div>Explore</div>,
-      },
-      {
-        path: '/people',
-        element: <div>People</div>,
-      },
-      {
-        path: '/saved',
-        element: <div>Saved</div>,
-      },
-      {
-        path: '/create-post',
-        element: <CreatePost />,
+        element: <AuthLayout />,
+        children: [
+          {
+            index: true,
+            path: '/signin',
+            element: <SignInForm />,
+          },
+          {
+            path: '/signup',
+            element: <SignUpForm />,
+          },
+        ],
       },
     ],
   },
   {
-    element: <AuthLayout />,
-    children: [
-      {
-        path: '/signin',
-        element: <SignInForm />,
-      },
-      {
-        path: '/signup',
-        element: <SignUpForm />,
-      },
-    ],
+    path: '*',
+    element: (
+      <main className='flex h-screen items-center justify-center'>
+        <h1>Page not found.</h1>
+      </main>
+    ),
   },
 ]);
 
@@ -66,6 +87,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      {/* TODO: customize toaster */}
       <Toaster
         position='top-center'
         reverseOrder={false}

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { BeatLoader } from 'react-spinners';
 
 import { useSignup } from './useSignup';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Input = styled.input`
   width: 30rem;
@@ -24,8 +25,9 @@ const Label = styled.label`
 `;
 
 function SignUpForm() {
-  const { signup, signupError, isSigningUp } = useSignup();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { signup, isSigningUp } = useSignup();
 
   const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
@@ -48,7 +50,21 @@ function SignUpForm() {
       return;
     }
 
-    signup({ email, password, fullName, username });
+    signup(
+      { email, password, fullName, username },
+      {
+        onSuccess: (data) => {
+          toast.success('Account created successfully');
+          queryClient.setQueryData(['authenticated-user'], data.user);
+          navigate('/');
+        },
+        onError: (error) => {
+          toast.error(
+            `Error occured while creating an account. ${error.message}`
+          );
+        },
+      }
+    );
   }
 
   return (

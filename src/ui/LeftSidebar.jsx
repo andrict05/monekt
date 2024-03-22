@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   HiArrowRightOnRectangle,
   HiOutlineBookmark,
@@ -10,12 +10,10 @@ import {
 } from 'react-icons/hi2';
 
 import { useLogout } from '../features/auth/useLogout';
-import { useUser } from '../features/auth/useUser';
+import { useSelector } from 'react-redux';
 
 function LeftSidebar() {
-  const navigate = useNavigate();
-  const { user } = useUser();
-  const { email, fullName, username } = user.user_metadata;
+  const user = useSelector((state) => state.user.currentUser);
   const { logout, isLoggingOut } = useLogout();
 
   function handleLogout(e) {
@@ -39,8 +37,8 @@ function LeftSidebar() {
         <div className='flex items-center gap-2 text-xl'>
           <HiUserCircle size='5rem' />
           <div className='flex flex-col justify-center'>
-            <span className='font-semibold'>{fullName}</span>
-            <span className='font-light text-slate-300'>@{username}</span>
+            <span className='font-semibold'>{user.fullName}</span>
+            <span className='font-light text-slate-300'>@{user.username}</span>
           </div>
         </div>
         <ul className='flex flex-col gap-4'>

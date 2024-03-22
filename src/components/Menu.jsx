@@ -35,7 +35,7 @@ function Toggle({ children, id }) {
 
 function OptionList({ children, id }) {
   const { openId, closeMenu } = useContext(MenuContext);
-  const ref = useOutsideClick(closeMenu, true);
+  const ref = useOutsideClick(closeMenu, false);
 
   if (openId !== id) return null;
 

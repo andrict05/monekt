@@ -47,7 +47,7 @@ export async function supabaseLoginUser({ email, password }) {
   return user;
 }
 
-export async function supabaseGetUser() {
+export async function supabaseGetAuthenticatedUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -6,6 +6,7 @@ import { BeatLoader } from 'react-spinners';
 
 import { useLogin } from './useLogin';
 import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Input = styled.input`
   width: 30rem;
@@ -25,10 +26,13 @@ const Label = styled.label`
 `;
 
 function SignInForm() {
-  const { login, isLoggingIn, data } = useLogin();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
+
+  const { login, isLoggingIn } = useLogin();
 
   function handleLogin({ email, password }) {
     if (!email || !password) {
@@ -36,7 +40,19 @@ function SignInForm() {
       return;
     }
 
-    login({ email, password });
+    login(
+      { email, password },
+      {
+        onSuccess: (data) => {
+          toast.success('Successfully logged in!');
+          queryClient.setQueryData(['authenticated-user'], data);
+          navigate('/');
+        },
+        onError: (error) => {
+          toast.error(`Error occured while logging in. ${error.message}`);
+        },
+      }
+    );
   }
 
   return (
