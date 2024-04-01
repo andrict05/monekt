@@ -3,16 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Menu, MenuItem, MenuList, MenuToggle } from '../components/Menu';
 import {
   HiBookmark,
-  HiCheck,
   HiHeart,
-  HiMiniCheck,
   HiOutlineBookmark,
-  HiOutlineCheck,
-  HiOutlineCheckCircle,
   HiOutlineHeart,
   HiOutlineTrash,
   HiUser,
-  HiUserCircle,
   HiUserMinus,
   HiUserPlus,
 } from 'react-icons/hi2';
@@ -20,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import {
   useFollowUser,
+  useFollowedPosts,
   useGetRecentPosts,
   useSavePost,
   useUpdateLikes,
@@ -35,11 +31,13 @@ function Home() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
   const { data: recentPosts, isPending } = useGetRecentPosts();
-  // const { data, error } = useFollowedPosts();
+  const { data: followersPosts, isPending: isFollowedPostsPending } =
+    useFollowedPosts();
   const { followUser } = useFollowUser();
   const follows = useSelector((state) => state.user.follows);
 
-  if (isPending) return <BeatLoader color='#f0f0ff' size={20} />;
+  if (isPending || isFollowedPostsPending)
+    return <BeatLoader color='#f0f0ff' size={20} />;
 
   function handleFollow(authorId) {
     const followedByCurrentUser = follows?.includes(authorId);
@@ -57,14 +55,21 @@ function Home() {
     followUser({ userId: user.id, followingArray: newFollows });
   }
 
+  let data = followersPosts ? followersPosts : recentPosts ? recentPosts : [];
+
   return (
     <FollowContext.Provider value={{ follows, handleFollow }}>
       <div className='w-full'>
         <h1 className='mb-6 text-2xl font-bold'>Home Feed</h1>
         <Menu>
           <div className='w-3/5'>
-            {!!recentPosts &&
-              recentPosts.map((post) => <Post key={post.id} post={post} />)}
+            {data.length > 0 ? (
+              data.map((post) => <Post key={post.id} post={post} />)
+            ) : (
+              <p className='text-lg text-slate-100'>
+                There is nothing new. Follow some people to get latest news.
+              </p>
+            )}
           </div>
         </Menu>
       </div>

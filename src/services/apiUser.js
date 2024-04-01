@@ -1,3 +1,4 @@
+import { subDays } from 'date-fns';
 import supabase from './supabase';
 
 export async function supabaseGetCurrentUser(sessionUserId) {
@@ -125,7 +126,10 @@ export async function supabaseGetFollowedPosts() {
   } = await supabase.auth.getUser();
   const userId = user.id;
 
-  const { data: followedUsers, error: followedUsersError } = await supabase
+  const {
+    data: { following },
+    error: followedUsersError,
+  } = await supabase
     .from('users')
     .select('following')
     .eq('id', userId)
@@ -133,17 +137,16 @@ export async function supabaseGetFollowedPosts() {
 
   if (followedUsersError) throw new Error(followedUsersError.message);
 
-  console.log(followedUsers);
-  return;
+  const { data: posts, error: postsError } = await supabase
+    .from('posts')
+    .select('*, author: users(*)')
+    .in('author_id', following)
+    .gte('created_at', subDays(new Date(), 30).toISOString())
+    .order('created_at', { ascending: false });
 
-  // const { data: posts, error: postsError } = await supabase
-  //   .from('posts')
-  //   .select('*, author: users(*)')
-  //   .in('author_id', ['id1', 'id2', 'id3']);
+  if (postsError) throw new Error(postsError.message);
 
-  // if (postsError) throw new Error(postsError.message);
-
-  // return posts;
+  return posts;
 }
 
 /* FOLLOW USER */

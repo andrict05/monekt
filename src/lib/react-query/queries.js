@@ -311,6 +311,8 @@ export function useFollowedPosts() {
 
 /* FOLLOW */
 export function useFollowUser() {
+  const queryClient = useQueryClient();
+
   const {
     mutate: followUser,
     data,
@@ -320,6 +322,7 @@ export function useFollowUser() {
     mutationKey: ['following'],
     mutationFn: ({ userId, followingArray }) => {
       supabaseFollowUser({ userId, followingArray });
+      queryClient.invalidateQueries(['followed-posts']);
     },
   });
 
