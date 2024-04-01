@@ -1,55 +1,81 @@
-import { Children, createContext, useContext, useState } from 'react';
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
+
 import { useOutsideClick } from '../hooks/useOutsideClick';
+import { HiEllipsisVertical, HiUser } from 'react-icons/hi2';
 
 const MenuContext = createContext();
 
-function MenuProvider({ children }) {
-  const [openId, setOpenId] = useState('');
-  const [position, setPosition] = useState(null);
-
-  const closeMenu = () => setOpenId('');
-  const openMenu = (id) => setOpenId(id);
-
-  return (
-    <MenuContext.Provider
-      value={{ openId, position, setPosition, closeMenu, openMenu }}>
-      {children}
-    </MenuContext.Provider>
-  );
-}
-
 function Menu({ children }) {
-  return <div className='flex  items-center justify-center '>{children}</div>;
+  const [opened, setOpened] = useState('');
+
+  const openMenu = (list) =>
+    setOpened((opened) => (opened === list ? '' : list));
+  const closeMenu = () => setOpened(false);
+
+  const value = {
+    opened,
+    openMenu,
+    closeMenu,
+  };
+
+  return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
 }
 
-function Toggle({ children, id }) {
-  const { openMenu, openId, closeMenu } = useContext(MenuContext);
+function MenuToggle({ toggles }) {
+  const { openMenu } = useContext(MenuContext);
 
-  function handleClick(e) {
-    e.stopPropagation();
-    openId === id ? closeMenu() : openMenu(id);
-  }
-
-  return <button onClick={handleClick}>{children}</button>;
-}
-
-function OptionList({ children, id }) {
-  const { openId, closeMenu } = useContext(MenuContext);
-  const ref = useOutsideClick(closeMenu, false);
-
-  if (openId !== id) return null;
+  const handleClick = (e) => {
+    if (openMenu !== toggles) e.stopPropagation();
+    openMenu(toggles);
+  };
 
   return (
-    <div
-      className='absolute right-0 top-14 rounded-md bg-slate-700 px-2 py-1'
-      ref={ref}>
-      {children}
-    </div>
+    <button onClick={handleClick}>
+      <HiEllipsisVertical size={22} />
+    </button>
   );
 }
 
-MenuProvider.Menu = Menu;
-MenuProvider.Toggle = Toggle;
-MenuProvider.OptionList = OptionList;
+function MenuList({ children, list, detectOutside = true }) {
+  const { opened, closeMenu } = useContext(MenuContext);
+  const wrapperRef = useOutsideClick(closeMenu, detectOutside, false);
 
-export default MenuProvider;
+  if (opened !== list) return null;
+
+  return (
+    <ul
+      ref={wrapperRef}
+      className={`absolute right-2 top-14 z-50 rounded-md bg-slate-700`}>
+      {children}
+    </ul>
+  );
+}
+
+function MenuItem({ children, onClick, closesMenu = true, className = '' }) {
+  const { closeMenu } = useContext(MenuContext);
+
+  const handleClick = (e) => {
+    onClick?.(e);
+    closesMenu && closeMenu();
+  };
+
+  return (
+    <li
+      className={
+        'flex items-center justify-start gap-2 rounded-md p-2 hover:bg-slate-500' +
+        ' ' +
+        className
+      }
+      onClick={handleClick}>
+      {children}
+    </li>
+  );
+}
+
+export { Menu, MenuToggle, MenuList, MenuItem };

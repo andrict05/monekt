@@ -3,10 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 import { BeatLoader } from 'react-spinners';
-
-import { useLogin } from './useLogin';
-import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useLogin } from '@/lib/react-query/queries';
 
 const Input = styled.input`
   width: 30rem;
@@ -78,14 +76,16 @@ function SignInForm() {
         </header>
         <div>
           <div className='flex justify-between'>
-            <Label>Email</Label>
+            <Label htmlFor='email'>Email</Label>
             <span>{errors?.email?.message}</span>
           </div>
           <Input
             value='tomislav@monekt.com'
             type='text'
             name='email'
+            id='email'
             disabled={isLoggingIn}
+            autoComplete='email'
             {...register('email', {
               required: 'Please enter your email address',
               pattern: {
@@ -97,14 +97,16 @@ function SignInForm() {
         </div>
         <div>
           <div className='flex justify-between'>
-            <Label>Password</Label>
+            <Label htmlFor='password'>Password</Label>
             <span>{errors?.password?.message}</span>
           </div>
           <Input
             value='34976100'
             type='password'
             name='password'
+            id='password'
             disabled={isLoggingIn}
+            autoComplete='current-password'
             {...register('password', {
               required: 'Please enter password',
               minLength: {

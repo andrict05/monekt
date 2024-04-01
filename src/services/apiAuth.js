@@ -23,7 +23,6 @@ export async function supabaseSignupUser({
     .select();
 
   profileError && console.log(profileError);
-  console.log(profile);
 
   if (signupError) {
     throw new Error(signupError.message);

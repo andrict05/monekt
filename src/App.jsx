@@ -1,25 +1,20 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import './global.css';
-import Home from './pages/Home';
-import SignInForm from './features/auth/SignInForm';
-import SignUpForm from './features/auth/SignUpForm';
-import AuthLayout from './ui/AuthLayout';
-import AppLayout from './ui/AppLayout';
+import '@/global.css';
+import Home from '@/pages/Home';
+import SignInForm from '@/features/auth/SignInForm';
+import SignUpForm from '@/features/auth/SignUpForm';
+import AuthLayout from '@/ui/AuthLayout';
+import AppLayout from '@/ui/AppLayout';
 import { Toaster } from 'react-hot-toast';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import CreatePost from './pages/CreatePost';
-import RootLayout from './ui/RootLayout';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5,
-      // staleTime: 0,
-    },
-  },
-});
+import CreatePost from '@/pages/CreatePost';
+import RootLayout from '@/ui/RootLayout';
+import Explore from '@/pages/Explore';
+import Profile from '@/pages/Profile';
+import Saved from '@/pages/Saved';
+import { QueryProvider } from '@/lib/react-query/QueryProvider';
+import People from './pages/People';
 
 const router = createBrowserRouter([
   {
@@ -41,19 +36,23 @@ const router = createBrowserRouter([
           },
           {
             path: '/explore',
-            element: <div>Explore</div>,
+            element: <Explore />,
           },
           {
             path: '/people',
-            element: <div>People</div>,
+            element: <People />,
           },
           {
             path: '/saved',
-            element: <div>Saved</div>,
+            element: <Saved />,
           },
           {
             path: '/create-post',
             element: <CreatePost />,
+          },
+          {
+            path: '/profile/:id',
+            element: <Profile />,
           },
         ],
       },
@@ -85,7 +84,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryProvider>
       <RouterProvider router={router} />
       {/* TODO: customize toaster */}
       <Toaster
@@ -115,7 +114,7 @@ function App() {
         }}
       />
       <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    </QueryProvider>
   );
 }
 

@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 import { BeatLoader } from 'react-spinners';
-
-import { useSignup } from './useSignup';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSignup } from '@/lib/react-query/queries';
 
 const Input = styled.input`
   width: 30rem;
@@ -90,13 +89,15 @@ function SignUpForm() {
         </header>
         <div>
           <div className='flex justify-between'>
-            <Label>Full name</Label>
+            <Label htmlFor='fullName'>Full name</Label>
             <span>{errors?.fullName?.message}</span>
           </div>
           <Input
             type='text'
             name='fullName'
+            id='fullName'
             disabled={isSigningUp}
+            autoComplete='name'
             {...register('fullName', {
               required: 'Please enter your full name',
             })}
@@ -104,13 +105,15 @@ function SignUpForm() {
         </div>
         <div>
           <div className='flex justify-between'>
-            <Label>Username</Label>
+            <Label htmlFor='username'>Username</Label>
             <span>{errors?.username?.message}</span>
           </div>
           <Input
             type='text'
             name='username'
+            id='username'
             disabled={isSigningUp}
+            autoComplete='username'
             {...register('username', {
               required: 'Please enter your username',
             })}
@@ -118,13 +121,15 @@ function SignUpForm() {
         </div>
         <div>
           <div className='flex justify-between'>
-            <Label>Email</Label>
+            <Label htmlFor='email'>Email</Label>
             <span>{errors?.email?.message}</span>
           </div>
           <Input
             type='text'
             name='email'
+            id='email'
             disabled={isSigningUp}
+            autoComplete='email'
             {...register('email', {
               required: 'Please enter your email address',
               pattern: {
@@ -136,13 +141,15 @@ function SignUpForm() {
         </div>
         <div>
           <div className='flex justify-between'>
-            <Label>Password</Label>
+            <Label htmlFor='password'>Password</Label>
             <span>{errors?.password?.message}</span>
           </div>
           <Input
             type='password'
             name='password'
+            id='password'
             disabled={isSigningUp}
+            autoComplete='new-password'
             {...register('password', {
               required: 'Please enter password',
               minLength: {
@@ -154,13 +161,15 @@ function SignUpForm() {
         </div>
         <div>
           <div className='flex justify-between'>
-            <Label>Confirm password</Label>
+            <Label htmlFor='confirmPassword'>Confirm password</Label>
             <span>{errors?.confirmPassword?.message}</span>
           </div>
           <Input
             type='password'
             name='confirmPassword'
+            id='confirmPassword'
             disabled={isSigningUp}
+            autoComplete='new-password'
             {...register('confirmPassword', {
               required: 'Please enter password',
               validate: (value) =>

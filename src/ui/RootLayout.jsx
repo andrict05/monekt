@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import supabase from '../services/supabase';
-import { setCurrentUser, setSessionUserId } from '../userSlice';
-import { useCurrentUser } from '../features/user/useCurrentUser';
+import { setCurrentUser, setFollows, setSessionUserId } from '../userSlice';
+import { useCurrentUser } from '@/lib/react-query/queries';
 import FullPage from './FullPage';
 import Loader from './Loader';
 
@@ -25,9 +25,6 @@ function RootLayout() {
     async function checkSession() {
       const { data } = await supabase.auth.getSession();
       setLoaded(() => true);
-      if (data.session) {
-        navigate('/');
-      }
       if (!data.session) {
         navigateToAuth();
       }
@@ -40,12 +37,11 @@ function RootLayout() {
       if (event === 'INITIAL_SESSION' && session) {
         dispatch(setSessionUserId(session.user.id));
         getCurrentUser(null, {});
-        navigate('/');
       }
       if (event === 'SIGNED_OUT') {
+        navigateToAuth();
         dispatch(setSessionUserId(null));
         dispatch(setCurrentUser(null));
-        navigateToAuth();
       }
     });
   }, [navigate, dispatch, getCurrentUser, navigateToAuth]);
@@ -53,20 +49,13 @@ function RootLayout() {
   useEffect(() => {
     if (currentUser) {
       dispatch(setCurrentUser(currentUser));
+      dispatch(setFollows(currentUser.following || []));
     }
   }, [currentUser, dispatch]);
 
-  const isReady = loaded && !isPending;
-
   return (
     <section className='flex h-screen flex-1 flex-col items-center justify-center bg-slate-950 py-10'>
-      {isReady ? (
-        <Outlet />
-      ) : (
-        <FullPage>
-          <Loader />
-        </FullPage>
-      )}
+      <Outlet />
     </section>
   );
 }

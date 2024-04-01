@@ -5,6 +5,7 @@ const userSlice = createSlice({
   initialState: {
     currentUser: null,
     sessionUserId: null,
+    follows: [],
   },
   reducers: {
     setCurrentUser(state, action) {
@@ -13,9 +14,16 @@ const userSlice = createSlice({
     setSessionUserId(state, action) {
       state.sessionUserId = action.payload;
     },
+    setSavedPosts(state, action) {
+      state.currentUser.savedPosts = action.payload;
+    },
+    setFollows(state, action) {
+      state.follows = action.payload;
+    },
   },
 });
 
-export const { setCurrentUser, setSessionUserId } = userSlice.actions;
+export const { setCurrentUser, setSessionUserId, setSavedPosts, setFollows } =
+  userSlice.actions;
 
 export default userSlice.reducer;
