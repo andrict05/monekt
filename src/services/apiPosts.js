@@ -45,6 +45,46 @@ export async function supabaseCreatePost({ image, tags, body }) {
   return updatedPost;
 }
 
+export async function supabaseUpdatePost({ image, tags, body, postId }) {
+  const { data: post, error } = await supabase
+    .from('posts')
+    .update({ tags, body })
+    .eq('id', postId)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+
+  // Upload image if there is one
+  if (!image) return post;
+
+  const extension = image.name.split('.').at(-1);
+  const filename = `${post.id}.${extension}`;
+
+  const { error: imageUploadError } = await supabase.storage
+    .from('post-images')
+    .upload(filename, image, {
+      upsert: true,
+    });
+
+  if (imageUploadError) throw new Error(imageUploadError.message);
+
+  // Fetch the uploaded image public URL
+  const {
+    data: { publicUrl },
+  } = await supabase.storage.from('post-images').getPublicUrl(filename);
+
+  // Update post with uploaded image URL
+  const { data: updatedPost, error: updatedPostError } = await supabase
+    .from('posts')
+    .update({ image: publicUrl })
+    .eq('id', post.id)
+    .select('*');
+
+  if (updatedPostError) throw new Error(updatedPostError.message);
+
+  return updatedPost;
+}
+
 export async function supabaseGetPosts(userId = '') {
   let query = supabase.from('posts');
   query = query.select('*, author: users(*)');
@@ -112,4 +152,16 @@ export async function supabaseUpdateLikes({ postId, likesArray }) {
   if (error) throw new Error(error.message);
 
   return data;
+}
+
+export async function supabaseGetPostById(editId) {
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select('*, author: users(*)')
+    .eq('id', editId)
+    .single();
+
+  if (error) throw new Error(error.message);
+
+  return post;
 }

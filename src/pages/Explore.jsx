@@ -7,7 +7,7 @@ import {
   useSavePost,
   useSearchPosts,
   useUpdateLikes,
-  useUpdatePost,
+  useUpdateSavedPost,
 } from '@/lib/react-query/queries';
 import { setSavedPosts } from '@/userSlice';
 import { formatDistanceToNow } from 'date-fns';
@@ -82,7 +82,7 @@ function Post({ post }) {
   const user = useSelector((state) => state.user.currentUser);
 
   const { savePost } = useSavePost();
-  const { updatePost } = useUpdatePost();
+  const { updateSavedPost } = useUpdateSavedPost();
   const { currentUser } = useCurrentUser();
   const { deletePost } = useDeletePost();
   const { updateLikes } = useUpdateLikes(post.id);
@@ -116,7 +116,7 @@ function Post({ post }) {
     const postId = post.id;
     const updatedPosts = user.savedPosts.filter((id) => id !== postId) || [];
     setIsSaved(false);
-    updatePost(
+    updateSavedPost(
       { posts: updatedPosts },
       {
         onSuccess: (data) => {

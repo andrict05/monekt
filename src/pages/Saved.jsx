@@ -6,7 +6,7 @@ import {
   useSavePost,
   useSavedPosts,
   useUpdateLikes,
-  useUpdatePost,
+  useUpdateSavedPost,
 } from '@/lib/react-query/queries';
 import {
   HiBookmark,
@@ -49,7 +49,7 @@ function Post({ post }) {
   const user = useSelector((state) => state.user.currentUser);
 
   const { savePost } = useSavePost();
-  const { updatePost } = useUpdatePost();
+  const { updateSavedPost } = useUpdateSavedPost();
   const { currentUser } = useCurrentUser();
   const { deletePost } = useDeletePost();
   const { updateLikes } = useUpdateLikes(post.id);
@@ -59,6 +59,7 @@ function Post({ post }) {
 
   useEffect(() => {
     setIsSaved(bookmarked);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [currentUser]);
 
   function handleDelete(e) {
@@ -83,7 +84,7 @@ function Post({ post }) {
     const postId = post.id;
     const updatedPosts = user.savedPosts.filter((id) => id !== postId) || [];
     setIsSaved(false);
-    updatePost(
+    updateSavedPost(
       { posts: updatedPosts },
       {
         onSuccess: (data) => {

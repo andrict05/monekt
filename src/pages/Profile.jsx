@@ -1,7 +1,7 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNow, getYear } from 'date-fns';
-import { HiOutlineTrash, HiUserPlus } from 'react-icons/hi2';
+import { HiOutlinePencil, HiOutlineTrash, HiUserPlus } from 'react-icons/hi2';
 
 import {
   useDeletePost,
@@ -56,11 +56,16 @@ function Profile() {
 
 function Post({ post }) {
   const user = useSelector((state) => state.user.currentUser);
+  const navigate = useNavigate();
   const { deletePost } = useDeletePost();
 
   function handleDelete(e) {
     e.preventDefault();
     deletePost(post);
+  }
+
+  function handleEdit() {
+    navigate(`/update-post/${post.id}`);
   }
 
   const tagsArr = post.tags.split(',').map((tag) => tag.trim());
@@ -96,10 +101,16 @@ function Post({ post }) {
             </>
           )}
           {post.author.id === user.id && (
-            <MenuItem onClick={handleDelete} className='text-red-500'>
-              <HiOutlineTrash />
-              <span>Delete</span>
-            </MenuItem>
+            <>
+              <MenuItem onClick={handleEdit} className=''>
+                <HiOutlinePencil />
+                <span>Edit</span>
+              </MenuItem>
+              <MenuItem onClick={handleDelete} className='text-red-500'>
+                <HiOutlineTrash />
+                <span>Delete</span>
+              </MenuItem>
+            </>
           )}
         </MenuList>
       </header>

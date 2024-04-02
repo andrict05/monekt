@@ -16,10 +16,12 @@ import {
 import {
   supabaseCreatePost,
   supabaseDeletePost,
+  supabaseGetPostById,
   supabaseGetPosts,
   supabaseGetRecentPosts,
   supabaseSearchPosts,
   supabaseUpdateLikes,
+  supabaseUpdatePost,
 } from '@/services/apiPosts';
 import {
   supabaseGetAuthenticatedUser,
@@ -159,6 +161,25 @@ export function useCreatePost() {
 
   return { createPost, isPending, error };
 }
+export function useUpdatePost() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const {
+    mutate: updatePost,
+    error,
+    isPending,
+  } = useMutation({
+    mutationKey: ['edit-post'],
+    mutationFn: supabaseUpdatePost,
+    onSettled: () => {
+      queryClient.invalidateQueries();
+      navigate('/');
+    },
+  });
+
+  return { updatePost, isPending, error };
+}
 
 export function useDeletePost() {
   const queryClient = useQueryClient();
@@ -223,11 +244,11 @@ export function useSavePost() {
 
   return { savePost, data, error, isPending };
 }
-export function useUpdatePost() {
+export function useUpdateSavedPost() {
   const queryClient = useQueryClient();
 
   const {
-    mutate: updatePost,
+    mutate: updateSavedPost,
     data,
     error,
     isPending,
@@ -246,7 +267,7 @@ export function useUpdatePost() {
     },
   });
 
-  return { updatePost, data, error, isPending };
+  return { updateSavedPost, data, error, isPending };
 }
 
 /* FETCH 20 RECENT POSTS */
@@ -327,4 +348,14 @@ export function useFollowUser() {
   });
 
   return { followUser, data, isPending, error };
+}
+
+export function useGetPostById(editId) {
+  const { data, isPending, error } = useQuery({
+    queryKey: ['edit-post'],
+    queryFn: () => supabaseGetPostById(editId),
+    retry: 1,
+  });
+
+  return { data, isPending, error };
 }

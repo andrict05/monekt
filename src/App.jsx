@@ -15,6 +15,7 @@ import Profile from '@/pages/Profile';
 import Saved from '@/pages/Saved';
 import { QueryProvider } from '@/lib/react-query/QueryProvider';
 import People from './pages/People';
+import UpdatePost from './pages/UpdatePost';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: '/create-post',
             element: <CreatePost />,
+          },
+          {
+            path: '/update-post/:id',
+            element: <UpdatePost />,
           },
           {
             path: '/profile/:id',

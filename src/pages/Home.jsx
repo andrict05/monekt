@@ -19,7 +19,7 @@ import {
   useGetRecentPosts,
   useSavePost,
   useUpdateLikes,
-  useUpdatePost,
+  useUpdateSavedPost,
 } from '@/lib/react-query/queries';
 import { useCurrentUser, useDeletePost } from '@/lib/react-query/queries';
 import { setFollows, setSavedPosts } from '@/userSlice';
@@ -84,7 +84,7 @@ function Post({ post }) {
   const { follows, handleFollow } = useContext(FollowContext);
 
   const { savePost } = useSavePost();
-  const { updatePost } = useUpdatePost();
+  const { updateSavedPost } = useUpdateSavedPost();
   const { currentUser } = useCurrentUser();
   const { deletePost } = useDeletePost();
   const { updateLikes } = useUpdateLikes(post.id);
@@ -120,7 +120,7 @@ function Post({ post }) {
     const postId = post.id;
     const updatedPosts = user.savedPosts.filter((id) => id !== postId) || [];
     setIsSaved(false);
-    updatePost(
+    updateSavedPost(
       { posts: updatedPosts },
       {
         onSuccess: (data) => {
