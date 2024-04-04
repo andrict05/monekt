@@ -2,9 +2,13 @@ import { Link, NavLink } from 'react-router-dom';
 import {
   HiArrowRightOnRectangle,
   HiOutlineBookmark,
+  HiOutlineCog,
+  HiOutlineCog6Tooth,
+  HiOutlineCog8Tooth,
   HiOutlineDocumentPlus,
   HiOutlineHome,
   HiOutlinePhoto,
+  HiOutlineUserGroup,
   HiUserGroup,
 } from 'react-icons/hi2';
 import { useSelector } from 'react-redux';
@@ -77,7 +81,7 @@ function LeftSidebar() {
               <NavLink
                 to='/people'
                 className='flex items-center gap-3 rounded-md p-4 text-xl font-semibold hover:bg-blue-400 [&.active]:bg-blue-500'>
-                <HiUserGroup
+                <HiOutlineUserGroup
                   size='2rem'
                   className='text-blue-600 [.active_&]:text-blue-100'
                 />
@@ -107,16 +111,27 @@ function LeftSidebar() {
               </NavLink>
             </li>
           </ul>
-          <button
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            className='group mt-auto flex w-full items-center gap-3 rounded-md p-4 text-xl font-semibold hover:bg-red-400 [&.active]:bg-blue-500'>
-            <HiArrowRightOnRectangle
-              size='1.6rem'
-              className='text-blue-600 group-hover:text-red-600'
-            />
-            <span className='group-hover:text-red-50'>Log out</span>
-          </button>
+          <div className='mt-auto'>
+            <NavLink
+              to='/account'
+              className='flex items-center gap-3 rounded-md p-4 text-xl font-semibold hover:bg-blue-400 [&.active]:bg-blue-500'>
+              <HiOutlineCog8Tooth
+                size='2rem'
+                className='text-blue-600 [.active_&]:text-blue-100'
+              />
+              <span>Account</span>
+            </NavLink>
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className='group  flex w-full items-center gap-3 rounded-md p-4 text-xl font-semibold hover:bg-red-400 [&.active]:bg-blue-500'>
+              <HiArrowRightOnRectangle
+                size='1.6rem'
+                className='text-blue-600 group-hover:text-red-600'
+              />
+              <span className='group-hover:text-red-50'>Log out</span>
+            </button>
+          </div>
         </nav>
       </aside>
     )

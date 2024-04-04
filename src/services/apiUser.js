@@ -140,7 +140,7 @@ export async function supabaseGetFollowedPosts() {
   const { data: posts, error: postsError } = await supabase
     .from('posts')
     .select('*, author: users(*)')
-    .in('author_id', following)
+    .in('author_id', [...following, userId])
     .gte('created_at', subDays(new Date(), 30).toISOString())
     .order('created_at', { ascending: false });
 

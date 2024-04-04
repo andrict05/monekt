@@ -16,6 +16,7 @@ import Saved from '@/pages/Saved';
 import { QueryProvider } from '@/lib/react-query/QueryProvider';
 import People from './pages/People';
 import UpdatePost from './pages/UpdatePost';
+import Account from './pages/Account';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
           {
             path: '/profile/:id',
             element: <Profile />,
+          },
+          {
+            path: '/settings',
+            element: <Account />,
           },
         ],
       },

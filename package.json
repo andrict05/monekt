@@ -27,11 +27,14 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.12",
     "@tanstack/eslint-plugin-query": "^5.27.7",
+    "@types/node": "^20.12.4",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.18",
+    "daisyui": "^4.9.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-define-config": "^2.1.0",

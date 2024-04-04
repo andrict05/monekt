@@ -7,7 +7,6 @@ export async function supabaseCreatePost({ image, tags, body }) {
       user: { id: authorid },
     },
   } = await supabase.auth.getUser();
-  console.log(authorid);
 
   const { data: post, error } = await supabase
     .from('posts')

@@ -1,13 +1,7 @@
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useContext, useState } from 'react';
 
 import { useOutsideClick } from '../hooks/useOutsideClick';
-import { HiEllipsisVertical, HiUser } from 'react-icons/hi2';
+import { HiEllipsisVertical } from 'react-icons/hi2';
 
 const MenuContext = createContext();
 
@@ -42,7 +36,7 @@ function MenuToggle({ toggles }) {
   );
 }
 
-function MenuList({ children, list, detectOutside = true }) {
+function MenuList({ children, list, detectOutside = true, ...props }) {
   const { opened, closeMenu } = useContext(MenuContext);
   const wrapperRef = useOutsideClick(closeMenu, detectOutside, false);
 
@@ -51,7 +45,7 @@ function MenuList({ children, list, detectOutside = true }) {
   return (
     <ul
       ref={wrapperRef}
-      className={`absolute right-2 top-14 z-50 rounded-md bg-slate-700`}>
+      className={`absolute right-2 top-20 z-50 rounded-md bg-slate-700`}>
       {children}
     </ul>
   );

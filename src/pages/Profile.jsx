@@ -10,11 +10,26 @@ import {
 } from '@/lib/react-query/queries';
 import { Menu, MenuItem, MenuList, MenuToggle } from '@/components/Menu';
 import Loader from '@/ui/Loader';
+import { useEffect, useState } from 'react';
+import supabase from '@/services/supabase';
 
 function Profile() {
   const { id } = useParams();
+  const [numPosts, setNumPosts] = useState(0);
   const { profile, isPending, error: profileError } = useGetProfile(id);
   let { data: posts, isPostsPending, error: postsError } = useUserPosts(id);
+
+  useEffect(() => {
+    async function getNumberOfPosts() {
+      const { data } = await supabase
+        .from('posts')
+        .select('id')
+        .eq('author_id', id);
+      const numberOfPosts = data.length;
+      setNumPosts(numberOfPosts || 0);
+    }
+    getNumberOfPosts();
+  }, [id, posts]);
 
   if (isPending || isPostsPending)
     return (
@@ -39,6 +54,14 @@ function Profile() {
           <p className='text-slate-300'>
             Joined in {getYear(profile.created_at)}
           </p>
+          <div className='mt-6 flex items-center'>
+            <span className='text-md text-slate-300'>
+              {profile.following.length} followings
+            </span>
+          </div>
+          <div className='mt-6 flex items-center'>
+            <span className='text-md text-slate-300'>{numPosts} posts</span>
+          </div>
         </div>
         <div className='mx-4 w-1/2 '>
           {!postsError ? (

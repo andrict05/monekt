@@ -30,16 +30,20 @@ function People() {
   }
 
   return (
-    <FollowContext.Provider value={{ follows, handleFollow, user }}>
-      <div className='w-full '>
-        <h1 className='text-2xl font-bold'>All users</h1>
-        <div className='mt-4 grid grid-cols-3 gap-8'>
-          {people.map((user) => (
-            <ProfileCard key={user.id} user={user} />
-          ))}
+    <div className='hide-scrollbar h-full overflow-y-scroll py-8'>
+      <FollowContext.Provider value={{ follows, handleFollow, user }}>
+        <div className='mx-auto w-1/2 '>
+          <div className=' grid grid-cols-3 gap-8'>
+            {people.map(
+              (profile) =>
+                user.id !== profile.id && (
+                  <ProfileCard key={profile.id} user={profile} />
+                )
+            )}
+          </div>
         </div>
-      </div>
-    </FollowContext.Provider>
+      </FollowContext.Provider>
+    </div>
   );
 }
 
@@ -51,28 +55,34 @@ function ProfileCard({ user }) {
   } = useContext(FollowContext);
 
   return (
-    <div className='flex flex-col items-center rounded-md border border-slate-800 p-10'>
-      <img
-        src={user.avatar || '/assets/logo.png'}
-        alt={user.fullName}
-        className='mb-5 inline-block h-16 w-16 rounded-full'
-      />
-      <h2 className='mb-2 text-xl font-bold'>{user.fullName}</h2>
-      <p className='mb-5'>@{user.username}</p>
-      {user.id !== loggedInUser.id &&
-        (follows.includes(user.id) ? (
-          <button
-            className='rounded-md bg-blue-900 px-3 py-2 font-bold text-blue-200'
-            onClick={() => handleFollow(user.id)}>
-            Unfollow
-          </button>
-        ) : (
-          <button
-            className='rounded-md bg-blue-600 px-3 py-2 font-bold'
-            onClick={() => handleFollow(user.id)}>
-            Follow
-          </button>
-        ))}
+    <div className='card card-normal bg-base-100 card-bordered shadow-md'>
+      <figure className='px-8 pt-8'>
+        <img
+          src={user.avatar || '/assets/logo.png'}
+          alt={user.fullName}
+          className='mask mask-squircle h-16 w-16 '
+        />
+      </figure>
+      <div className='card-body items-center text-center [&_.card-title]:mb-0'>
+        <h2 className='card-title'>{user.fullName}</h2>
+        <p>@{user.username}</p>
+        <div className='card-actions mt-2'>
+          {user.id !== loggedInUser.id &&
+            (follows.includes(user.id) ? (
+              <button
+                className='btn btn-primary'
+                onClick={() => handleFollow(user.id)}>
+                Unfollow
+              </button>
+            ) : (
+              <button
+                className='btn btn-accent'
+                onClick={() => handleFollow(user.id)}>
+                Follow
+              </button>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }
