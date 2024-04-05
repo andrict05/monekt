@@ -20,9 +20,9 @@ function Home() {
   return (
     <div className='hide-scrollbar h-full overflow-y-scroll '>
       <div className=' mx-auto  w-1/2 flex-1  py-8'>
-        <Post.Container>
-          {data.length > 0 ? (
-            data.map((post) => (
+        {data.length > 0 ? (
+          <Post.Container>
+            {data.map((post) => (
               <Post key={post.id} post={post}>
                 <Post.Header>
                   <Post.Avatar />
@@ -42,13 +42,13 @@ function Home() {
                   <Post.Save />
                 </Post.Footer>
               </Post>
-            ))
-          ) : (
-            <p className='text-lg text-slate-100'>
-              There is nothing new. Follow some people to get latest news.
-            </p>
-          )}
-        </Post.Container>
+            ))}
+          </Post.Container>
+        ) : (
+          <p className='text-lg text-slate-100'>
+            There is nothing new. Follow some people to get latest news.
+          </p>
+        )}
       </div>
     </div>
   );

@@ -64,7 +64,7 @@ function ProfileCard({ user }) {
         />
       </figure>
       <div className='card-body items-center text-center [&_.card-title]:mb-0'>
-        <h2 className='card-title'>{user.fullName}</h2>
+        <h2 className='card-title text-slate-100'>{user.fullName}</h2>
         <p>@{user.username}</p>
         <div className='card-actions mt-2'>
           {user.id !== loggedInUser.id &&

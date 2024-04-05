@@ -32,39 +32,42 @@ function CreatePost() {
   }
 
   return (
-    <div className='w-full'>
-      <h1 className='mb-12 text-2xl font-bold'>Create a new post</h1>
-      <form
-        className='space-y-4  [&_div_label]:mb-2 [&_div_label]:block'
-        onSubmit={handleSubmit(handleNewPost)}>
+    <div className='mx-auto w-2/5'>
+      <h1 className='my-8 text-2xl font-bold'>Create a new post</h1>
+
+      <form className='space-y-6' onSubmit={handleSubmit(handleNewPost)}>
         <div>
-          <Label htmlFor='body'>Body</Label>
+          {/* <Label htmlFor='body'>Body</Label> */}
           <textarea
-            id='body'
-            placeholder='What are you thinking about?'
             {...register('body', { required: true })}
-            className='w-full resize-none rounded-md bg-slate-800 p-3 text-slate-50'
+            id='body'
             rows={8}
-          />
+            className='textarea textarea-primary textarea-lg w-full resize-none text-slate-100'
+            placeholder='What will your post be about?'></textarea>
         </div>
         <div>
-          <Label htmlFor='tags'>Tags (separated with comma)</Label>
-          <Input
-            type='text'
-            id='tags'
+          {/* <Label htmlFor='tags'>Tags (separated with comma)</Label> */}
+          <input
             {...register('tags')}
-            className='text-black'
-            placeholder='e.g. react, javascript'
+            id='tags'
+            type='text'
+            placeholder='Optional tags for your post, e.g. react, javascript'
+            className='input input-lg input-bordered input-primary w-full text-slate-100'
           />
         </div>
         <div>
-          <Label htmlFor='image'>Image</Label>
-          <input type='file' id='image' {...register('image')} />
+          <input
+            {...register('image')}
+            id='image'
+            type='file'
+            accept='image/*'
+            className='file-input file-input-bordered file-input-primary w-full max-w-sm'
+          />
         </div>
         <button
           type='submit'
           disabled={isPending}
-          className='rounded-sm bg-blue-600 px-4 py-1 text-white'>
+          className='btn btn-primary btn-lg w-full'>
           Post
         </button>
       </form>

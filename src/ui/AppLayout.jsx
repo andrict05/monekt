@@ -24,16 +24,16 @@ function AppLayout() {
   }, [user]);
 
   return (
-    <div className='flex h-screen w-screen flex-col'>
-      <header className='bg-base-300 flex shrink-0 grow-0 basis-auto justify-center'>
+    <div className='flex h-dvh w-dvw flex-col'>
+      <header className='flex shrink-0 grow-0 basis-auto justify-center bg-base-300'>
         <div className='navbar w-8/12'>
           <div className='navbar-start '>
-            <NavLink to='/' className='btn btn-ghost text-primary text-xl'>
+            <NavLink to='/' className='btn btn-ghost text-xl text-primary'>
               monekt
             </NavLink>
           </div>
           <div className='navbar-center'>
-            <ul className='menu menu-lg menu-horizontal items-center px-1'>
+            <ul className='menu menu-horizontal menu-lg items-center px-1'>
               <li>
                 <NavLink to='/'>
                   <HiHome className='h-6 w-6' />
@@ -62,7 +62,7 @@ function AppLayout() {
           </div>
           <div className='navbar-end '>
             <NavLink to='/create-post' className='link-accent mr-4'>
-              <button className='btn btn-sm btn-accent'>
+              <button className='btn btn-accent btn-sm'>
                 <HiDocumentPlus className='h-6 w-6' />
                 <span className='text-sm'>Create post</span>
               </button>
@@ -72,7 +72,7 @@ function AppLayout() {
                 <div
                   tabIndex={0}
                   role='button'
-                  className='btn btn-ghost btn-circle online avatar '>
+                  className='avatar btn btn-circle btn-ghost online '>
                   <div className='mask mask-squircle w-16  '>
                     <img
                       alt='Tailwind CSS Navbar component'
@@ -82,7 +82,7 @@ function AppLayout() {
                 </div>
                 <ul
                   tabIndex={0}
-                  className='menu menu-lg dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow'>
+                  className='menu dropdown-content menu-lg z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'>
                   <li>
                     <NavLink to={`/profile/${user.id}`}>
                       <HiUser className='h-6 w-6' />
@@ -105,7 +105,7 @@ function AppLayout() {
           </div>
         </div>
       </header>
-      <main className='bg-base-200 shrink grow basis-auto overflow-auto'>
+      <main className='shrink grow basis-auto overflow-auto bg-base-200'>
         {loaded ? (
           <Outlet />
         ) : (
