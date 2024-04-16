@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import {
   HiBookmark,
   HiHeart,
+  HiMiniUser,
   HiOutlineBookmark,
   HiOutlineHeart,
   HiOutlineTrash,
   HiUser,
+  HiUserCircle,
   HiUserMinus,
   HiUserPlus,
 } from 'react-icons/hi2';
@@ -138,7 +140,7 @@ export function Post({ post, children, ...props }) {
   return (
     <PostContext.Provider value={value}>
       <article
-        className='bg-base-100 border-base-200 relative rounded-lg border p-6 shadow-md [&:not(:last-child)]:mb-10'
+        className='relative rounded-lg border border-base-200 bg-base-100 p-6 shadow-md [&:not(:last-child)]:mb-10'
         {...props}>
         {children}
       </article>
@@ -163,7 +165,7 @@ Post.Avatar = function Avatar() {
 
   return (
     <img
-      src={post.author.avatar || '/assets/logo.png'}
+      src={post.author.avatar || '/assets/default-user.png'}
       alt={post.author.fullName}
       className='mask mask-squircle mr-4 h-16 w-16'
     />

@@ -45,7 +45,7 @@ function MenuList({ children, list, detectOutside = true, ...props }) {
   return (
     <ul
       ref={wrapperRef}
-      className={`absolute right-2 top-20 z-50 rounded-md bg-slate-700`}>
+      className={`absolute right-2 top-20 z-50 rounded-md border border-base-300 bg-base-200`}>
       {children}
     </ul>
   );
@@ -62,7 +62,7 @@ function MenuItem({ children, onClick, closesMenu = true, className = '' }) {
   return (
     <li
       className={
-        'flex items-center justify-start gap-2 rounded-md p-2 hover:bg-slate-500' +
+        'flex items-center justify-start gap-2 rounded-md p-2 transition-all hover:bg-neutral' +
         ' ' +
         className
       }

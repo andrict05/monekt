@@ -40,7 +40,7 @@ function AuthLayout() {
   }, [navigate, dispatch, getCurrentUser]);
 
   return loaded ? (
-    <section className='flex h-screen flex-1 flex-col items-center justify-center bg-slate-950 py-10'>
+    <section className='flex h-screen flex-1 flex-col items-center justify-center bg-base-100 py-10'>
       <Outlet />
     </section>
   ) : (

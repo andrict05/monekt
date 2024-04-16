@@ -11,6 +11,8 @@ export async function supabaseSignupUser({
     password,
   });
 
+  console.log(`user db`, user);
+
   const { data: profile, error: profileError } = await supabase
     .from('users')
     .insert([

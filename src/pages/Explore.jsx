@@ -28,7 +28,7 @@ function Explore() {
     <div className=' h-full overflow-y-auto'>
       <div className='mx-auto flex w-1/2 flex-col gap-2  rounded-md p-4 pt-8'>
         <label
-          className='input input-bordered input-lg flex w-full items-center gap-2 '
+          className='input input-lg input-bordered flex w-full items-center gap-2 '
           htmlFor='search-input'>
           <input
             type='text'
@@ -54,7 +54,7 @@ function Explore() {
         </label>
       </div>
       <div className=' hide-scrollbar h-[calc(100%-7rem)] overflow-y-scroll rounded-md pb-8 pt-4'>
-        <div className='mx-auto w-1/2'>
+        <div className='mx-auto w-full px-4 sm:w-2/3'>
           <h2 className='mb-4 text-xl font-bold'>Popular Today</h2>
           <Post.Container>
             {isSearching ? (

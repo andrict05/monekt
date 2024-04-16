@@ -15,11 +15,16 @@ function Home() {
       </FullPage>
     );
 
-  let data = followersPosts ? followersPosts : recentPosts ? recentPosts : [];
+  let data =
+    followersPosts?.length > 0
+      ? followersPosts
+      : recentPosts?.length > 0
+        ? recentPosts
+        : [];
 
   return (
     <div className='hide-scrollbar h-full overflow-y-scroll '>
-      <div className=' mx-auto  w-1/2 flex-1  py-8'>
+      <div className='mx-auto w-full flex-1 px-4 py-8 lg:w-4/5 xl:w-3/5'>
         {data.length > 0 ? (
           <Post.Container>
             {data.map((post) => (

@@ -1,7 +1,9 @@
 import { useFollowUser, useGetAllUsers } from '@/lib/react-query/queries';
 import { setFollows } from '@/userSlice';
 import { createContext, useContext } from 'react';
+import { HiMiniUser } from 'react-icons/hi2';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const FollowContext = createContext();
 
@@ -32,8 +34,8 @@ function People() {
   return (
     <div className='hide-scrollbar h-full overflow-y-scroll py-8'>
       <FollowContext.Provider value={{ follows, handleFollow, user }}>
-        <div className='mx-auto w-1/2 '>
-          <div className=' grid grid-cols-3 gap-8'>
+        <div className='mx-auto w-2/3 px-24 sm:w-full '>
+          <div className=' grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3'>
             {people.map(
               (profile) =>
                 user.id !== profile.id && (
@@ -55,16 +57,20 @@ function ProfileCard({ user }) {
   } = useContext(FollowContext);
 
   return (
-    <div className='card card-normal bg-base-100 card-bordered shadow-md'>
+    <div className='card card-bordered card-normal bg-base-100 shadow-md'>
       <figure className='px-8 pt-8'>
         <img
-          src={user.avatar || '/assets/logo.png'}
+          src={user.avatar || '/assets/default-user.png'}
           alt={user.fullName}
           className='mask mask-squircle h-16 w-16 '
         />
       </figure>
       <div className='card-body items-center text-center [&_.card-title]:mb-0'>
-        <h2 className='card-title text-slate-100'>{user.fullName}</h2>
+        <Link to={`/profile/${user.id}`}>
+          <h2 className='card-title text-slate-100 hover:underline'>
+            {user.fullName}
+          </h2>
+        </Link>
         <p>@{user.username}</p>
         <div className='card-actions mt-2'>
           {user.id !== loggedInUser.id &&

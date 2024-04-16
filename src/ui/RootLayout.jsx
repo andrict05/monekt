@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import supabase from '../services/supabase';
-import { setCurrentUser, setFollows, setSessionUserId } from '../userSlice';
+import { useDispatch } from 'react-redux';
+
 import { useCurrentUser } from '@/lib/react-query/queries';
-import FullPage from './FullPage';
-import Loader from './Loader';
+import supabase from '@/services/supabase';
+import { setCurrentUser, setFollows, setSessionUserId } from '@/userSlice';
+import { useQueryClient } from '@tanstack/react-query';
+import { supabaseGetFollowedPosts } from '@/services/apiUser';
 
 function RootLayout() {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { getCurrentUser, currentUser, isPending } = useCurrentUser();
+  const { getCurrentUser, currentUser } = useCurrentUser();
   const { pathname } = useLocation();
+  const queryClient = useQueryClient();
 
   const navigateToAuth = useCallback(
     function () {
-      navigate(pathname.startsWith('/signup') ? '/signup' : '/signin');
+      const allowedPaths = ['/signin', '/signup', '/forgot', '/recovery'];
+      navigate(allowedPaths.includes(pathname) ? pathname : '/signin');
     },
     [navigate, pathname]
   );
@@ -36,7 +39,14 @@ function RootLayout() {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'INITIAL_SESSION' && session) {
         dispatch(setSessionUserId(session.user.id));
-        getCurrentUser(null, {});
+        getCurrentUser(null, {
+          onSuccess: () => {
+            queryClient.prefetchQuery({
+              queryKey: ['followed-posts'],
+              queryFn: () => supabaseGetFollowedPosts(),
+            });
+          },
+        });
       }
       if (event === 'SIGNED_OUT') {
         navigateToAuth();
@@ -44,7 +54,7 @@ function RootLayout() {
         dispatch(setCurrentUser(null));
       }
     });
-  }, [navigate, dispatch, getCurrentUser, navigateToAuth]);
+  }, [navigate, dispatch, getCurrentUser, navigateToAuth, queryClient]);
 
   useEffect(() => {
     if (currentUser) {

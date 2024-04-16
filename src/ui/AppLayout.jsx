@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import Loader from './Loader';
-import FullPage from './FullPage';
 import { useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom';
 import {
@@ -8,14 +6,23 @@ import {
   HiCog8Tooth,
   HiDocumentPlus,
   HiHome,
+  HiMiniUser,
   HiPhoto,
   HiUser,
   HiUserGroup,
 } from 'react-icons/hi2';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-hot-toast';
+
+import Loader from '@/ui/Loader';
+import FullPage from '@/ui/FullPage';
+import supabase from '@/services/supabase';
+import { setCurrentUser } from '@/userSlice';
 
 function AppLayout() {
   const [loaded, setLoaded] = useState(false);
   const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
@@ -23,10 +30,16 @@ function AppLayout() {
     }
   }, [user]);
 
+  async function handleLogout() {
+    toast.success('Logged out successfully.');
+    await supabase.auth.signOut();
+    dispatch(setCurrentUser(null));
+  }
+
   return (
     <div className='flex h-dvh w-dvw flex-col'>
       <header className='flex shrink-0 grow-0 basis-auto justify-center bg-base-300'>
-        <div className='navbar w-8/12'>
+        <div className='navbar w-full text-[0.4rem] lg:w-11/12 xl:w-11/12 2xl:w-10/12'>
           <div className='navbar-start '>
             <NavLink to='/' className='btn btn-ghost text-xl text-primary'>
               monekt
@@ -37,25 +50,25 @@ function AppLayout() {
               <li>
                 <NavLink to='/'>
                   <HiHome className='h-6 w-6' />
-                  <span>Home</span>
+                  <span className='hidden sm:inline-block'>Home</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to='/explore'>
                   <HiPhoto className='h-6 w-6' />
-                  <span>Explore</span>
+                  <span className='hidden sm:inline-block'>Explore</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to='/people'>
                   <HiUserGroup className='h-6 w-6' />
-                  <span>People</span>
+                  <span className='hidden sm:inline-block'>People</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to='/saved'>
                   <HiBookmark className='h-6 w-6' />
-                  <span>Saved</span>
+                  <span className='hidden sm:inline-block'>Saved</span>
                 </NavLink>
               </li>
             </ul>
@@ -64,7 +77,9 @@ function AppLayout() {
             <NavLink to='/create-post' className='link-accent mr-4'>
               <button className='btn btn-accent btn-sm'>
                 <HiDocumentPlus className='h-6 w-6' />
-                <span className='text-sm'>Create post</span>
+                <span className='hidden text-xs lg:inline-block lg:text-sm'>
+                  Create post
+                </span>
               </button>
             </NavLink>
             {loaded ? (
@@ -72,11 +87,12 @@ function AppLayout() {
                 <div
                   tabIndex={0}
                   role='button'
-                  className='avatar btn btn-circle btn-ghost online '>
+                  className='avatar btn btn-circle btn-ghost online hover:bg-transparent'>
                   <div className='mask mask-squircle w-16  '>
                     <img
-                      alt='Tailwind CSS Navbar component'
-                      src={user.avatar || '/assets/logo.png'}
+                      alt={user?.fullName}
+                      src={user?.avatar || '/assets/default-user.png'}
+                      className='mask mask-squircle'
                     />
                   </div>
                 </div>
@@ -84,7 +100,7 @@ function AppLayout() {
                   tabIndex={0}
                   className='menu dropdown-content menu-lg z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'>
                   <li>
-                    <NavLink to={`/profile/${user.id}`}>
+                    <NavLink to={`/profile/${user?.id}`}>
                       <HiUser className='h-6 w-6' />
                       <span>Profile</span>
                     </NavLink>
@@ -96,7 +112,9 @@ function AppLayout() {
                     </NavLink>
                   </li>
                   <div className='divider my-3'></div>
-                  <button className='btn  btn-error '>Logout</button>
+                  <button className='btn  btn-error ' onClick={handleLogout}>
+                    Logout
+                  </button>
                 </ul>
               </div>
             ) : (
@@ -106,7 +124,7 @@ function AppLayout() {
         </div>
       </header>
       <main className='shrink grow basis-auto overflow-auto bg-base-200'>
-        {loaded ? (
+        {loaded && !!user ? (
           <Outlet />
         ) : (
           <FullPage>

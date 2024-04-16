@@ -1,7 +1,6 @@
 function Account() {
   return (
-    <div className='w-full'>
-      <h1 className='mb-6 text-2xl font-bold'>Account</h1>
+    <div className='mx-auto w-1/2 py-8'>
       <div className='grid-1-col grid'>
         <div className='m-2 flex items-start'>
           <label htmlFor='' className='mr-4 text-xl'>

@@ -12,6 +12,7 @@ import {
   supabaseGetAllUsers,
   supabaseGetFollowedPosts,
   supabaseFollowUser,
+  supabaseUpdateProfileSettings,
 } from '@/services/apiUser';
 import {
   supabaseCreatePost,
@@ -29,8 +30,25 @@ import {
   supabaseLogoutUser,
   supabaseSignupUser,
 } from '@/services/apiAuth';
+import supabase from '@/services/supabase';
 
 /* USERS */
+
+export function useUpdateProfileSettings() {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending, error } = useMutation({
+    mutationKey: ['profile-settings'],
+    mutationFn: supabaseUpdateProfileSettings,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['current-user']);
+
+      toast.success('Profile settings updated successfully');
+    },
+  });
+  return { updateProfileSettings: mutate, isPending, error };
+}
+
 export function useCurrentUser() {
   const sessionUserId = useSelector((state) => state.user.sessionUserId);
 
@@ -40,6 +58,21 @@ export function useCurrentUser() {
   });
 
   return { getCurrentUser: mutate, currentUser: data, error, isPending };
+}
+
+export function useUserEmail() {
+  const { data, isPending } = useQuery({
+    queryKey: ['currentUser-email'],
+    queryFn: async () => {
+      const {
+        data: {
+          user: { email },
+        },
+      } = await supabase.auth.getUser();
+      return email;
+    },
+  });
+  return { email: data, emailLoading: isPending };
 }
 
 export function useGetProfile(id) {
@@ -275,6 +308,7 @@ export function useGetRecentPosts() {
   const { data, isPending, error } = useQuery({
     queryKey: ['getRecentPosts'],
     queryFn: supabaseGetRecentPosts,
+    staleTime: 1000 * 60 * 5,
   });
 
   return { data, isPending, error };
@@ -325,6 +359,7 @@ export function useFollowedPosts() {
   const { data, isPending, error } = useQuery({
     queryKey: ['followed-posts'],
     queryFn: () => supabaseGetFollowedPosts(),
+    staleTime: 1000 * 60 * 5,
   });
 
   return { data, isPending, error };

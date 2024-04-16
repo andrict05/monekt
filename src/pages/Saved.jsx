@@ -12,18 +12,18 @@ function Saved() {
         <Loader />
       </FullPage>
     );
-  if (!isPending && data.data.length === 0)
+  if ((!isPending && data?.data?.length === 0) || !data?.data)
     return (
       <div className='py-8 text-center'>
         <h1 className='text-lg'>No saved posts.</h1>
       </div>
     );
 
-  const savedPosts = data.data;
+  const savedPosts = data?.data || [];
 
   return (
     <div className='hide-scrollbar h-full overflow-y-scroll '>
-      <div className=' mx-auto  w-1/2 flex-1  py-8'>
+      <div className=' mx-auto   w-full  flex-1 px-4 py-8 sm:w-2/3 xl:w-1/2'>
         <Post.Container>
           {savedPosts?.map((post) => (
             <Post post={post} key={post.id}>

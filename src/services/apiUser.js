@@ -1,6 +1,46 @@
 import { subDays } from 'date-fns';
 import supabase from './supabase';
 
+export async function supabaseUpdateProfileSettings({ avatar, bio, user }) {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ bio })
+    .eq('id', user.id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  if (!avatar || avatar.length === 0) return data;
+
+  const image = avatar[0];
+
+  const extension = image.name.split('.').at(-1);
+  const filename = `${user.id}.${extension}`;
+
+  const { error: imageUploadError } = await supabase.storage
+    .from('user-avatars')
+    .upload(filename, image, {
+      upsert: true,
+    });
+
+  if (imageUploadError) throw new Error(imageUploadError.message);
+
+  const {
+    data: { publicUrl },
+  } = await supabase.storage.from('user-avatars').getPublicUrl(filename);
+
+  const { data: updatedUser, error: updatedUserError } = await supabase
+    .from('users')
+    .update({ avatar: publicUrl })
+    .eq('id', user.id)
+    .select('*')
+    .single();
+
+  if (updatedUserError) throw new Error(updatedUserError.message);
+
+  return updatedUser;
+}
+
 export async function supabaseGetCurrentUser(sessionUserId) {
   if (!sessionUserId) throw new Error('No session user id');
 

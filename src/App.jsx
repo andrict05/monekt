@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Navigate,
+} from 'react-router-dom';
 
 import '@/global.css';
 import Home from '@/pages/Home';
@@ -16,7 +20,11 @@ import Saved from '@/pages/Saved';
 import { QueryProvider } from '@/lib/react-query/QueryProvider';
 import People from './pages/People';
 import UpdatePost from './pages/UpdatePost';
-import Account from './pages/Account';
+
+import Settings from '@/pages/settings/Settings';
+import ProfileSettings from '@/pages/settings/ProfileSettings';
+import SecuritySettings from '@/pages/settings/SecuritySettings';
+import ForgotPasswordForm from './features/auth/ForgotPasswordForm';
 
 const router = createBrowserRouter([
   {
@@ -62,7 +70,22 @@ const router = createBrowserRouter([
           },
           {
             path: '/settings',
-            element: <Account />,
+            element: <Settings />,
+            children: [
+              {
+                path: '/settings/profile',
+                element: <ProfileSettings />,
+              },
+              {
+                path: '/settings/security',
+                element: <SecuritySettings />,
+              },
+              {
+                index: true,
+                path: '/settings/*',
+                element: <Navigate to='/settings/profile' />,
+              },
+            ],
           },
         ],
       },
@@ -77,6 +100,10 @@ const router = createBrowserRouter([
           {
             path: '/signup',
             element: <SignUpForm />,
+          },
+          {
+            path: '/forgot',
+            element: <ForgotPasswordForm />,
           },
         ],
       },
