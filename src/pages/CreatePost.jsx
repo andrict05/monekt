@@ -1,24 +1,6 @@
 import { useCreatePost } from '@/lib/react-query/queries';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import styled from 'styled-components';
-
-const Input = styled.input`
-  width: 100%;
-  height: 3rem;
-  padding: 0.75rem;
-  border-radius: 0.375rem;
-  background-color: #1f2937;
-  color: #dee4eb;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #d1d5db;
-  font-size: 1rem;
-`;
 
 function CreatePost() {
   const { handleSubmit, register, reset } = useForm();

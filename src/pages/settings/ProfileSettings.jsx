@@ -18,8 +18,7 @@ function ProfileSettings() {
     register,
   } = useForm();
   const { updateProfileSettings, isPending } = useUpdateProfileSettings();
-  const [avatara, setAvatar] = useState(user.avatar || '/assets/logo.png');
-  let avatar = null;
+  const [avatar, setAvatar] = useState(user.avatar || '/assets/logo.png');
 
   function handleProfileUpdate({ avatar, bio }) {
     updateProfileSettings(
